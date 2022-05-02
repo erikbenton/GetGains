@@ -1,2 +1,4 @@
 /.vs
 /GetGains/.vs
+/GetGains/GetGains.Core/obj
+/GetGains/GetGains.Core/bin
