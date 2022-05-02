@@ -10,7 +10,7 @@ public interface IExerciseData
 
     Exercise Add(Exercise exercise);
 
-    Exercise? Update(Exercise exercise);
+    bool Update(Exercise exercise);
 
-    void Delete(Exercise exercise);
+    bool Delete(Exercise exercise);
 }

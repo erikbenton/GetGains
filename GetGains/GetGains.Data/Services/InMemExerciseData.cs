@@ -16,26 +16,40 @@ public class InMemExerciseData : IExerciseData
 
     public Exercise Add(Exercise exercise)
     {
-        throw new NotImplementedException();
+        exercise.Id = _exercises.Max(e => e.Id) + 1;
+
+        _exercises.Add(exercise);
+
+        return exercise;
     }
 
-    public void Delete(Exercise exercise)
+    public bool Delete(Exercise exercise)
     {
-        throw new NotImplementedException();
+        var exerciseToRemove = _exercises.FirstOrDefault(e => e.Id == exercise.Id);
+
+        if (exerciseToRemove is null) return false;
+
+        return _exercises.Remove(exerciseToRemove);
     }
 
     public ICollection<Exercise> GetAll()
     {
-        throw new NotImplementedException();
+        return _exercises;
     }
 
     public Exercise? GetById(int id)
     {
-        throw new NotImplementedException();
+        return _exercises.FirstOrDefault(e => e.Id == id);
     }
 
-    public Exercise? Update(Exercise exercise)
+    public bool Update(Exercise exercise)
     {
-        throw new NotImplementedException();
+        var exerciseToUpdate = _exercises.FirstOrDefault(e => e.Id == exercise.Id);
+
+        if (exerciseToUpdate is null) return false;
+
+        exerciseToUpdate = exercise;
+
+        return true;
     }
 }
