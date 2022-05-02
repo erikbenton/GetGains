@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GetGains.Core.Exercises;
+namespace GetGains.Core.Models.Exercises;
 
 public class Exercise
 {
