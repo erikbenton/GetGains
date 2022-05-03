@@ -111,6 +111,7 @@ public class InMemExerciseData : IExerciseData
         exerciseToUpdate.BodyPart = exercise.BodyPart;
         exerciseToUpdate.Category = exercise.Category;
         exerciseToUpdate.Description = exercise.Description;
+        exerciseToUpdate.MediaUrl = exercise.MediaUrl;
         exerciseToUpdate.Author = exercise.Author;
         exerciseToUpdate.Instructions = exercise.Instructions;
 
