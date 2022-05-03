@@ -5,6 +5,6 @@
 <ul>
     @foreach (var exercise in Model)
     {
-        <li>@exercise.Name - @exercise.Category</li>
+        <li>@exercise.Name - @exercise.Category <a asp-controller="Exercise" asp-action="Details" asp-route-id="@exercise.Id">View</a></li>
     }
 </ul>
