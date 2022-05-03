@@ -12,7 +12,63 @@ public class InMemExerciseData : IExerciseData
         {
             new Exercise()
             {
-                Id = 1
+                Id = 1,
+                Name = "Bench Press",
+                BodyPart = "Chest",
+                Category = "Barbell",
+                Description = "Press the bar up from your chest",
+                Instructions = null,
+                Author = "Erik Benton"
+            },
+            new Exercise()
+            {
+                Id = 2,
+                Name = "Squat",
+                BodyPart = "Legs",
+                Category = "Barbell",
+                Description = "Stand up with the barbell over your shoulders",
+                Instructions = null,
+                Author = "Kyle McNurmann"
+            },
+            new Exercise()
+            {
+                Id = 3,
+                Name = "Pull Up",
+                BodyPart = "Upper Back",
+                Category = "Bodyweight",
+                Description = "Pull yourself up over the bar",
+                Instructions = null,
+                Author = "Alexa Stils"
+            },
+            new Exercise()
+            {
+                Id = 4,
+                Name = "Over Head Press",
+                BodyPart = "Shoulders",
+                Category = "Barbell",
+                Description = "Press the bar up over your head",
+                Instructions = null,
+                Author = "Jeff Lovely"
+            },
+            new Exercise()
+            {
+                Id = 5,
+                Name = "Dumbbell Curls",
+                BodyPart = "Biceps",
+                Category = "Dumbbell",
+                Description = "Curl the dumbbell up from your waist to your shoulder",
+                Instructions = null,
+                Author = "Mike Vincent"
+            },
+            new Exercise()
+            {
+                Id = 6,
+                Name = "Indoor Biking",
+                BodyPart = "Legs",
+                Category = "Indoor Cardio",
+                Description = "Bike on a bike trainer",
+                Instructions = null,
+                Author = "Sarah Bennet"
             },
         };
     }

@@ -1,0 +1,10 @@
+﻿@model List<GetGains.Core.Models.Exercises.Exercise>
+
+<h1>Browse Exercises</h1>
+
+<ul>
+    @foreach (var exercise in Model)
+    {
+        <li>@exercise.Name - @exercise.Category</li>
+    }
+</ul>

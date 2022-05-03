@@ -1,7 +1,11 @@
+using GetGains.Data.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSingleton<IExerciseData>(new InMemExerciseData());
 
 var app = builder.Build();
 
