@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetGains.Core", "GetGains.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetGains.Data", "GetGains.Data\GetGains.Data.csproj", "{DEC7E61E-6489-4F45-A693-4C32A3550FA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetGains.MVC", "GetGains.MVC\GetGains.MVC.csproj", "{D7A227D3-D3A1-4501-9B4C-5C7A18957A13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DEC7E61E-6489-4F45-A693-4C32A3550FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEC7E61E-6489-4F45-A693-4C32A3550FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEC7E61E-6489-4F45-A693-4C32A3550FA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7A227D3-D3A1-4501-9B4C-5C7A18957A13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7A227D3-D3A1-4501-9B4C-5C7A18957A13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7A227D3-D3A1-4501-9B4C-5C7A18957A13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7A227D3-D3A1-4501-9B4C-5C7A18957A13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
