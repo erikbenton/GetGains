@@ -10,7 +10,10 @@ public class InMemExerciseData : IExerciseData
     {
         _exercises = new List<Exercise>()
         {
-            new Exercise(),
+            new Exercise()
+            {
+                Id = 1
+            },
         };
     }
 
@@ -32,9 +35,9 @@ public class InMemExerciseData : IExerciseData
         return _exercises.Remove(exerciseToRemove);
     }
 
-    public ICollection<Exercise> GetAll()
+    public List<Exercise> GetAll()
     {
-        return _exercises;
+        return _exercises.OrderBy(e => e.Name).ToList();
     }
 
     public Exercise? GetById(int id)
@@ -44,11 +47,16 @@ public class InMemExerciseData : IExerciseData
 
     public bool Update(Exercise exercise)
     {
-        var exerciseToUpdate = _exercises.FirstOrDefault(e => e.Id == exercise.Id);
+        var exerciseToUpdate = GetById(exercise.Id);
 
         if (exerciseToUpdate is null) return false;
 
-        exerciseToUpdate = exercise;
+        exerciseToUpdate.Name = exercise.Name;
+        exerciseToUpdate.BodyPart = exercise.BodyPart;
+        exerciseToUpdate.Category = exercise.Category;
+        exerciseToUpdate.Description = exercise.Description;
+        exerciseToUpdate.Author = exercise.Author;
+        exerciseToUpdate.Instructions = exercise.Instructions;
 
         return true;
     }

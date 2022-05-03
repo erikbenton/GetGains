@@ -4,7 +4,7 @@ namespace GetGains.Data.Services;
 
 public interface IExerciseData
 {
-    ICollection<Exercise> GetAll();
+    List<Exercise> GetAll();
 
     Exercise? GetById(int id);
 
