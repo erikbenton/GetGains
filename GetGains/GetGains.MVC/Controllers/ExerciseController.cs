@@ -61,6 +61,7 @@ public class ExerciseController : Controller
         return View("Edit", exercise);
     }
 
+    [ValidateAntiForgeryToken]
     [HttpPost]
     public IActionResult Edit(Exercise exercise)
     {
@@ -70,6 +71,27 @@ public class ExerciseController : Controller
 
         return isSaved
             ? RedirectToAction("Details", new { id= exercise.Id })
+            : View("Error", new ErrorViewModel());
+    }
+
+    [HttpGet]
+    public IActionResult Delete(int id)
+    {
+        var exercise = _exerciseContext.GetById(id);
+
+        if (exercise is null) return View("Error", new ErrorViewModel());
+
+        return View("Delete", exercise);
+    }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public IActionResult Delete(Exercise exercise)
+    {
+        var isDeleted = _exerciseContext.Delete(exercise);
+
+        return isDeleted
+            ? RedirectToAction("Index")
             : View("Error", new ErrorViewModel());
     }
 }

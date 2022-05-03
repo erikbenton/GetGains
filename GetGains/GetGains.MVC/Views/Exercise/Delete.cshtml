@@ -1,11 +1,12 @@
 ﻿@model GetGains.Core.Models.Exercises.Exercise
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Delete";
 }
 
-<h1>Details</h1>
+<h1>Delete</h1>
 
+<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Exercise</h4>
     <hr />
@@ -53,9 +54,10 @@
             @Html.DisplayFor(model => model.Author)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-controller="Exercise" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-controller="Exercise" asp-action="Delete" asp-route-id="@Model.Id" class="text-danger">Delete</a> |
-    <a asp-controller="Exercise" asp-action="Index">Back to List</a>
+    
+    <form asp-controller="Exercise" asp-action="Delete" method="post">
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-controller="Exercise" asp-action="Details" asp-route-id="@Model.Id">Back to @Model.Name</a> |
+        <a asp-action="Index">Back to List</a>
+    </form>
 </div>
