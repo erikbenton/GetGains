@@ -1,4 +1,4 @@
-﻿@model List<GetGains.Core.Models.Exercises.Exercise>
+﻿@model List<GetGains.MVC.Models.Exercises.ExerciseViewModel>
 
 <h1>Browse Exercises</h1>
 
@@ -7,6 +7,6 @@
 <ul>
     @foreach (var exercise in Model)
     {
-        <li>@exercise.Name - @exercise.Category <a asp-controller="Exercise" asp-action="Details" asp-route-id="@exercise.Id">View</a></li>
+        <li>@exercise.Name - @Html.DisplayFor(model => exercise.Category) <a asp-controller="Exercise" asp-action="Details" asp-route-id="@exercise.Id">View</a></li>
     }
 </ul>
