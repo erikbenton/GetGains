@@ -1,5 +1,6 @@
 ﻿using GetGains.Core.Models.Exercises;
 using GetGains.Data.Services;
+using GetGains.MVC.Mappers;
 using GetGains.MVC.Models;
 using GetGains.MVC.Models.Exercises;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ public class ExerciseController : Controller
     {
         var exerciseModels = _exerciseContext
             .GetAll()
-            .Select(e => new ExerciseViewModel(e))
+            .Select(exercise => ExerciseMapper.Map(exercise))
             .ToList();
 
         return View("Index", exerciseModels);
@@ -41,16 +42,7 @@ public class ExerciseController : Controller
         if (!ModelState.IsValid)
             return View(newModel);
 
-        var newExercise = new Exercise()
-        {
-            Name = newModel.Name,
-            BodyPart = newModel.BodyPart,
-            Category = newModel.Category,
-            Description = newModel.Description,
-            MediaUrl = newModel.MediaUrl,
-            Instructions = newModel.Instructions,
-            Author = newModel.Author,
-        };
+        var newExercise = ExerciseMapper.Map(newModel);
 
         _exerciseContext.Add(newExercise);
 
@@ -65,7 +57,7 @@ public class ExerciseController : Controller
         if (exercise is null)
             return View("Error", new ErrorViewModel());
 
-        var model = new ExerciseViewModel(exercise);
+        var model = ExerciseMapper.Map(exercise);
 
         return View("Details", model);
     }
@@ -78,7 +70,7 @@ public class ExerciseController : Controller
         if (exercise is null)
             return View("Error", new ErrorViewModel());
 
-        var model = new ExerciseViewModel(exercise);
+        var model = ExerciseMapper.Map(exercise);
 
         return View("Edit", model);
     }
@@ -90,17 +82,7 @@ public class ExerciseController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
-        var updatedExercise = new Exercise()
-        {
-            Id = model.Id,
-            Name = model.Name,
-            BodyPart = model.BodyPart,
-            Category = model.Category,
-            Description = model.Description,
-            MediaUrl = model.MediaUrl,
-            Instructions = model.Instructions,
-            Author = model.Author,
-        };
+        var updatedExercise = ExerciseMapper.Map(model);
 
         var isUpdated = _exerciseContext.Update(updatedExercise);
 
@@ -117,7 +99,7 @@ public class ExerciseController : Controller
         if (exercise is null)
             return View("Error", new ErrorViewModel());
 
-        var model = new ExerciseViewModel(exercise);
+        var model = ExerciseMapper.Map(exercise);
 
         return View("Delete", model);
     }
@@ -126,17 +108,7 @@ public class ExerciseController : Controller
     [HttpPost]
     public IActionResult Delete(ExerciseViewModel model)
     {
-        var exerciseToDelete = new Exercise()
-        {
-            Id = model.Id,
-            Name = model.Name,
-            BodyPart = model.BodyPart,
-            Category = model.Category,
-            Description = model.Description,
-            MediaUrl = model.MediaUrl,
-            Instructions = model.Instructions,
-            Author = model.Author,
-        };
+        var exerciseToDelete = ExerciseMapper.Map(model);
 
         var isDeleted = _exerciseContext.Delete(exerciseToDelete);
 
