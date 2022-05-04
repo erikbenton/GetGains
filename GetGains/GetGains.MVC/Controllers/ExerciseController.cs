@@ -34,7 +34,8 @@ public class ExerciseController : Controller
     [HttpPost]
     public IActionResult Create(Exercise newExercise)
     {
-        if (!ModelState.IsValid) return View(newExercise);
+        if (!ModelState.IsValid)
+            return View(newExercise);
 
         _exerciseContext.Add(newExercise);
 
@@ -46,7 +47,8 @@ public class ExerciseController : Controller
     {
         var exercise = _exerciseContext.GetById(id);
 
-        if (exercise is null) return View("Error", new ErrorViewModel());
+        if (exercise is null)
+            return View("Error", new ErrorViewModel());
 
         return View("Details", exercise);
     }
@@ -56,7 +58,8 @@ public class ExerciseController : Controller
     {
         var exercise = _exerciseContext.GetById(id);
 
-        if (exercise is null) return View("Error", new ErrorViewModel());
+        if (exercise is null)
+            return View("Error", new ErrorViewModel());
 
         return View("Edit", exercise);
     }
@@ -67,9 +70,9 @@ public class ExerciseController : Controller
     {
         if (!ModelState.IsValid) return View(exercise);
 
-        var isSaved = _exerciseContext.Update(exercise);
+        var isUpdated = _exerciseContext.Update(exercise);
 
-        return isSaved
+        return isUpdated
             ? RedirectToAction("Details", new { id= exercise.Id })
             : View("Error", new ErrorViewModel());
     }
@@ -79,7 +82,8 @@ public class ExerciseController : Controller
     {
         var exercise = _exerciseContext.GetById(id);
 
-        if (exercise is null) return View("Error", new ErrorViewModel());
+        if (exercise is null)
+            return View("Error", new ErrorViewModel());
 
         return View("Delete", exercise);
     }

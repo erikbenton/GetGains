@@ -4,11 +4,10 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Editing @Model.Name</h1>
 
-<h4>Exercise</h4>
-<hr />
 <div class="row">
+    <hr />
     <div class="col-md-4">
         <form asp-controller="Exercise" asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -53,5 +52,6 @@
 </div>
 
 <div>
+    <a asp-controller="Exercise" asp-action="Details" asp-route-id="@Model.Id">Back to @Model.Name</a> |
     <a asp-controller="Exercise" asp-action="Index">Back to List</a>
 </div>
