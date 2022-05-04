@@ -1,4 +1,5 @@
 ﻿using GetGains.Core.Enums;
+using GetGains.Core.Models.Instructions;
 using System.ComponentModel.DataAnnotations;
 
 namespace GetGains.Core.Models.Exercises;
@@ -9,7 +10,7 @@ public class Exercise
     public int Id { get; set; }
 
     [Required]
-    public string? Name { get; set; }
+    public string Name { get; set; } = DefaultName;
 
     [Required]
     public ExerciseCategory Category { get; set; }
@@ -23,7 +24,9 @@ public class Exercise
     [Display(Name = "Media URL")]
     public string? MediaUrl { get; set; }
 
-    public List<string>? Instructions { get; set; }
+    public List<Instruction>? Instructions { get; set; }
 
     public string? Author { get; set; }
+
+    private const string DefaultName = "New Exercise";
 }

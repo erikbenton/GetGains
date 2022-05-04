@@ -1,5 +1,7 @@
 ﻿using GetGains.Core.Models.Exercises;
+using GetGains.Core.Models.Instructions;
 using GetGains.MVC.Models.Exercises;
+using GetGains.MVC.Models.Instructions;
 
 namespace GetGains.MVC.Mappers;
 
@@ -18,10 +20,10 @@ public static class ExerciseMapper
             Author = model.Author,
         };
 
-        // TODO - Instructions will have their
-        // own ViewModel in the future and will
-        // need their own mapping protocol
-        exercise.Instructions = model.Instructions;
+        exercise.Instructions = model.Instructions?
+            .Select(
+                instructionModel => new Instruction(exercise))
+            .ToList();
 
         return exercise;
     }
@@ -39,10 +41,9 @@ public static class ExerciseMapper
             Author = exercise.Author,
         };
 
-        // TODO - Instructions will have their
-        // own Model in the future and will
-        // need their own mapping protocol
-        model.Instructions = exercise.Instructions;
+        model.Instructions = exercise.Instructions?
+            .Select(instruction => new InstructionViewModel(model))
+            .ToList();
 
         return model;
     }
