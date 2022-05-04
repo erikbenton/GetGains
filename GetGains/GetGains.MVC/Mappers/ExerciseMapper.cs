@@ -22,7 +22,7 @@ public static class ExerciseMapper
 
         exercise.Instructions = model.Instructions?
             .Select(
-                instructionModel => new Instruction(exercise))
+                instructionModel => InstructionMapper.Map(instructionModel, exercise))
             .ToList();
 
         return exercise;
@@ -42,7 +42,8 @@ public static class ExerciseMapper
         };
 
         model.Instructions = exercise.Instructions?
-            .Select(instruction => new InstructionViewModel(model))
+            .Select(
+                instruction => InstructionMapper.Map(instruction, model))
             .ToList();
 
         return model;
