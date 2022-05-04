@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GetGains.Core.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace GetGains.Core.Models.Exercises;
 
@@ -11,11 +12,11 @@ public class Exercise
     public string? Name { get; set; }
 
     [Required]
-    public string? Category { get; set; }
+    public ExerciseCategory Category { get; set; }
 
     [Required]
     [Display(Name = "Body Part")]
-    public string? BodyPart { get; set; }
+    public BodyPart BodyPart { get; set; }
 
     public string? Description { get; set; }
 

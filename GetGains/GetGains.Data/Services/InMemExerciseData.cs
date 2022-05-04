@@ -1,4 +1,5 @@
-﻿using GetGains.Core.Models.Exercises;
+﻿using GetGains.Core.Enums;
+using GetGains.Core.Models.Exercises;
 
 namespace GetGains.Data.Services;
 
@@ -14,8 +15,8 @@ public class InMemExerciseData : IExerciseData
             {
                 Id = 1,
                 Name = "Bench Press",
-                BodyPart = "Chest",
-                Category = "Barbell",
+                BodyPart = BodyPart.Chest,
+                Category = ExerciseCategory.Barbell,
                 Description = "Press the bar up from your chest",
                 Instructions = null,
                 Author = "Erik Benton"
@@ -24,8 +25,8 @@ public class InMemExerciseData : IExerciseData
             {
                 Id = 2,
                 Name = "Squat",
-                BodyPart = "Legs",
-                Category = "Barbell",
+                BodyPart = BodyPart.Legs,
+                Category = ExerciseCategory.Barbell,
                 Description = "Stand up with the barbell over your shoulders",
                 Instructions = null,
                 Author = "Kyle McNurmann"
@@ -34,8 +35,8 @@ public class InMemExerciseData : IExerciseData
             {
                 Id = 3,
                 Name = "Pull Up",
-                BodyPart = "Upper Back",
-                Category = "Bodyweight",
+                BodyPart = BodyPart.UpperBack,
+                Category = ExerciseCategory.Bodyweight,
                 Description = "Pull yourself up over the bar",
                 Instructions = null,
                 Author = "Alexa Stils"
@@ -44,8 +45,8 @@ public class InMemExerciseData : IExerciseData
             {
                 Id = 4,
                 Name = "Over Head Press",
-                BodyPart = "Shoulders",
-                Category = "Barbell",
+                BodyPart = BodyPart.Shoulders,
+                Category = ExerciseCategory.Barbell,
                 Description = "Press the bar up over your head",
                 Instructions = null,
                 Author = "Jeff Lovely"
@@ -54,8 +55,8 @@ public class InMemExerciseData : IExerciseData
             {
                 Id = 5,
                 Name = "Dumbbell Curls",
-                BodyPart = "Biceps",
-                Category = "Dumbbell",
+                BodyPart = BodyPart.Biceps,
+                Category = ExerciseCategory.Dumbbell,
                 Description = "Curl the dumbbell up from your waist to your shoulder",
                 Instructions = null,
                 Author = "Mike Vincent"
@@ -64,8 +65,8 @@ public class InMemExerciseData : IExerciseData
             {
                 Id = 6,
                 Name = "Indoor Biking",
-                BodyPart = "Legs",
-                Category = "Indoor Cardio",
+                BodyPart = BodyPart.Legs,
+                Category = ExerciseCategory.IndoorCardio,
                 Description = "Bike on a bike trainer",
                 Instructions = null,
                 Author = "Sarah Bennet"

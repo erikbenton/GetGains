@@ -1,4 +1,5 @@
-﻿@model GetGains.Core.Models.Exercises.Exercise
+﻿@using GetGains.Core.Enums
+@model GetGains.Core.Models.Exercises.Exercise
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,25 +11,35 @@
     <hr />
     <div class="col-md-4">
         <form asp-controller="Exercise" asp-action="Edit" method="post">
+            
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
             <div class="form-group">
                 <input asp-for="Id" class="form-control" type="hidden" />
             </div>
+            
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
-                <span asp-validation-for="Category" class="text-danger"></span>
+                <select class="form-control"
+                        asp-for="Category"
+                        asp-items="Html.GetEnumSelectList<ExerciseCategory>()" >
+                </select>
             </div>
+            
             <div class="form-group">
                 <label asp-for="BodyPart" class="control-label"></label>
-                <input asp-for="BodyPart" class="form-control" />
-                <span asp-validation-for="BodyPart" class="text-danger"></span>
+                <select class="form-control"
+                        asp-for="BodyPart"
+                        asp-items="Html.GetEnumSelectList<BodyPart>()">
+                </select>
             </div>
+            
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
