@@ -1,5 +1,6 @@
 ﻿using GetGains.Core.Enums;
 using GetGains.Core.Models.Exercises;
+using GetGains.Core.Models.Instructions;
 
 namespace GetGains.Data.Services;
 
@@ -72,6 +73,32 @@ public class InMemExerciseData : IExerciseData
                 Author = "Sarah Bennet"
             },
         };
+
+        int instructionId = 1;
+        _exercises.ForEach(exercise =>
+        {
+            exercise.Instructions = new List<Instruction>()
+            {
+                new Instruction(exercise)
+                {
+                    Id = instructionId++,
+                    StepNumber = 1,
+                    Text = "Warm up"
+                },
+                new Instruction(exercise)
+                {
+                    Id = instructionId++,
+                    StepNumber = 2,
+                    Text = "Perform the exercise",
+                },
+                new Instruction(exercise)
+                {
+                    Id = instructionId++,
+                    StepNumber = 3,
+                    Text = "Clean up the workout area",
+                }
+            };
+        });
     }
 
     public Exercise Add(Exercise exercise)
