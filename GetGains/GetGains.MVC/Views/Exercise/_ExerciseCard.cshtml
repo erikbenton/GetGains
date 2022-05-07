@@ -1,0 +1,12 @@
+﻿@model GetGains.MVC.Models.Exercises.ExerciseViewModel
+
+<div class="card mb-2" style="width: 18rem;">
+    <div class="card-body">
+    <h5 class="card-title">@Html.DisplayFor(model => Model.Name)</h5>
+    <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(model => Model.Category) - @Html.DisplayFor(model => Model.BodyPart)</h6>
+    <p class="card-text">@Html.DisplayFor(model => Model.Description)</p>
+    <a class="card-link" asp-controller="Exercise" asp-route-id="@Model.Id" asp-action="Details">Details</a>
+    <a class="card-link" asp-controller="Exercise" asp-route-id="@Model.Id" asp-action="Edit">Edit</a>
+    <a class="card-link text-danger" asp-controller="Exercise" asp-route-id="@Model.Id" asp-action="Delete">Delete</a>
+    </div>
+</div>

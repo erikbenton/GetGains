@@ -2,11 +2,9 @@
 
 <h1>Browse Exercises</h1>
 
-<a asp-controller="Exercise" asp-action="Create" class="btn btn-success my-3">Create</a>
+<a asp-controller="Exercise" asp-action="Create" class="btn btn-success my-3">Create New Exercise</a>
 
-<ul>
-    @foreach (var exercise in Model)
-    {
-        <li>@exercise.Name - @Html.DisplayFor(model => exercise.Category) <a asp-controller="Exercise" asp-action="Details" asp-route-id="@exercise.Id">View</a></li>
-    }
-</ul>
+@foreach (var exercise in Model)
+{
+    <partial name="_ExerciseCard" model="@exercise" />
+}
