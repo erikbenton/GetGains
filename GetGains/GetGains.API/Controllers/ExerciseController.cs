@@ -1,33 +1,37 @@
-﻿using GetGains.Data.Services;
+﻿using GetGains.API.Dtos.Exercises;
+using GetGains.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GetGains.API.Controllers
+namespace GetGains.API.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class ExerciseController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class ExerciseController : ControllerBase
+    private readonly IExerciseData exerciseContext;
+
+    public ExerciseController(IExerciseData exerciseContext)
     {
-        private readonly IExerciseData exerciseContext;
+        this.exerciseContext = exerciseContext;
+    }
 
-        public ExerciseController(IExerciseData exerciseContext)
-        {
-            this.exerciseContext = exerciseContext;
-        }
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+        var exercises = exerciseContext.GetAll();
+        var exerciseData = exercises.Select(e => new ExerciseDto(e, true)).ToList();
+        return Ok(exerciseData);
+    }
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var exercises = exerciseContext.GetAll();
-            return Ok("Got all");
-        }
+    [HttpGet]
+    [Route("{id:int}")]
+    public IActionResult GetById(int id)
+    {
+        var exercise = exerciseContext.GetById(id);
 
-        [HttpGet]
-        [Route("{id:int}")]
-        public IActionResult GetById(int id)
-        {
-            var exercise = exerciseContext.GetById(id);
+        if (exercise is null) return BadRequest($"No exercise found with id: {id}");
 
-            return Ok($"Got id {id}");
-        }
+        var exerciseData = new ExerciseDto(exercise, true);
+        return Ok(exerciseData);
     }
 }
