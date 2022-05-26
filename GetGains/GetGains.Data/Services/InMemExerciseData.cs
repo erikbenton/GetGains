@@ -20,7 +20,7 @@ public class InMemExerciseData : IExerciseData
                 Category = ExerciseCategory.Barbell,
                 Description = "Press the bar up from your chest",
                 Instructions = null,
-                MediaUrl = "https://images.unsplash.com/photo-1534368959876-26bf04f2c947?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+                MediaUrl = "https://images.unsplash.com/photo-1534368959876-26bf04f2c947",
                 Author = "Erik Benton"
             },
             new Exercise()
@@ -31,7 +31,7 @@ public class InMemExerciseData : IExerciseData
                 Category = ExerciseCategory.Barbell,
                 Description = "Stand up with the barbell over your shoulders",
                 Instructions = null,
-                MediaUrl = "https://images.unsplash.com/photo-1596357395217-80de13130e92?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1742&q=80",
+                MediaUrl = "https://images.unsplash.com/photo-1596357395217-80de13130e92",
                 Author = "Kyle McNurmann"
             },
             new Exercise()
@@ -42,7 +42,7 @@ public class InMemExerciseData : IExerciseData
                 Category = ExerciseCategory.Bodyweight,
                 Description = "Pull yourself up over the bar",
                 Instructions = null,
-                MediaUrl = "https://images.unsplash.com/photo-1597347316205-36f6c451902a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+                MediaUrl = "https://images.unsplash.com/photo-1597347316205-36f6c451902a",
                 Author = "Alexa Stils"
             },
             new Exercise()
@@ -53,7 +53,7 @@ public class InMemExerciseData : IExerciseData
                 Category = ExerciseCategory.Barbell,
                 Description = "Press the bar up over your head",
                 Instructions = null,
-                MediaUrl = "https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+                MediaUrl = "https://images.unsplash.com/photo-1532029837206-abbe2b7620e3",
                 Author = "Jeff Lovely"
             },
             new Exercise()
