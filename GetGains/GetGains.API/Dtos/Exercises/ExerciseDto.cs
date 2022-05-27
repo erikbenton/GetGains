@@ -1,5 +1,5 @@
 ﻿using GetGains.API.Dtos.Instructions;
-using GetGains.Core.Enums;
+using GetGains.Core.Extensions;
 using GetGains.Core.Models.Exercises;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,11 +14,11 @@ public class ExerciseDto
     public string Name { get; set; }
 
     [Required]
-    public ExerciseCategory Category { get; set; }
+    public string Category { get; set; }
 
     [Required]
     [Display(Name = "Body Part")]
-    public BodyPart BodyPart { get; set; }
+    public string BodyPart { get; set; }
 
     public string? Description { get; set; }
 
@@ -33,8 +33,8 @@ public class ExerciseDto
     {
         Id = exercise.Id;
         Name = exercise.Name;
-        Category = exercise.Category;
-        BodyPart = exercise.BodyPart;
+        Category = exercise.Category.GetLabel();
+        BodyPart = exercise.BodyPart.GetLabel();
         Description = exercise.Description;
         MediaUrl = exercise.MediaUrl;
         Author = exercise.Author;

@@ -1,5 +1,6 @@
 ﻿using GetGains.API.Dtos.Exercises;
 using GetGains.Data.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GetGains.API.Controllers;
