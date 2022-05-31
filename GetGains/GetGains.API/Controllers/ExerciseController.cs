@@ -1,4 +1,8 @@
 ﻿using GetGains.API.Dtos.Exercises;
+using GetGains.API.Mappers;
+using GetGains.Core.Extensions;
+using GetGains.Core.Models.Exercises;
+using GetGains.Core.Models.Instructions;
 using GetGains.Data.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -34,5 +38,33 @@ public class ExerciseController : ControllerBase
 
         var exerciseData = new ExerciseDto(exercise, true);
         return Ok(exerciseData);
+    }
+
+    [HttpPost]
+    public IActionResult Post([FromBody] ExerciseDto newModel)
+    {
+        if (!ModelState.IsValid) return BadRequest(newModel.ToString());
+
+        var newExercise = ExerciseMapper.Map(newModel);
+
+        exerciseContext.Add(newExercise);
+
+        var savedModel = ExerciseMapper.Map(newExercise);
+
+        return Ok(savedModel);
+    }
+
+    [HttpPut]
+    public IActionResult Put([FromBody] ExerciseDto updatedModel)
+    {
+        if (!ModelState.IsValid) return BadRequest(updatedModel.ToString());
+
+        var updatedExercise = ExerciseMapper.Map(updatedModel);
+
+        exerciseContext.Update(updatedExercise);
+
+        var savedModel = ExerciseMapper.Map(updatedExercise, true);
+
+        return Ok(savedModel);
     }
 }

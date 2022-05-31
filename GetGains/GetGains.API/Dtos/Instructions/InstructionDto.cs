@@ -1,18 +1,25 @@
 ﻿using GetGains.Core.Models.Instructions;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace GetGains.API.Dtos.Instructions;
 
 public class InstructionDto
 {
-    [Required]
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     [Required]
     public int StepNumber { get; set; }
 
     [Required]
-    public string Text { get; set; } = "";
+    public string Text { get; set; }
+
+    [JsonConstructor]
+    public InstructionDto(int stepNumber, string text)
+    {
+        StepNumber = stepNumber;
+        Text = text;
+    }
 
     public InstructionDto(Instruction instruction)
     {

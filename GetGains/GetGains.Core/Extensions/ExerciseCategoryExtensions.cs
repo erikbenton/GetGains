@@ -24,4 +24,25 @@ public static class ExerciseCategoryExtensions
             _ => "N/A",
         };
     }
+
+    /// <summary>
+    /// Gets the proper exercise category for the string value.
+    /// </summary>
+    /// <param name="exerciseType"></param>
+    /// <returns>Exercise category enum value.</returns>
+    public static ExerciseCategory GetCategory(this string exerciseType)
+    {
+        return exerciseType switch
+        {
+            "Barbell" => ExerciseCategory.Barbell,
+            "Dumbbell" => ExerciseCategory.Dumbbell,
+            "Lift Machine" => ExerciseCategory.LiftMachine,
+            "Bodyweight" => ExerciseCategory.Bodyweight,
+            "Outdoor Cardio" => ExerciseCategory.OutdoorCardio,
+            "Indoor Cardio" => ExerciseCategory.IndoorCardio,
+            "Machine Cardio" => ExerciseCategory.MachineCardio,
+            "Other" => ExerciseCategory.Other,
+            _ => ExerciseCategory.Other,
+        };
+    }
 }

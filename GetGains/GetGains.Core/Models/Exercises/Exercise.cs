@@ -19,6 +19,7 @@ public class Exercise
     [Display(Name = "Body Part")]
     public BodyPart BodyPart { get; set; }
 
+    [MaxLength(255)]
     public string? Description { get; set; }
 
     [Display(Name = "Media URL")]

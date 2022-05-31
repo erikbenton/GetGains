@@ -26,5 +26,28 @@ namespace GetGains.Core.Extensions
                 _ => "N/A",
             };
         }
+
+        /// <summary>
+        /// Gets the proper body part for the string value.
+        /// </summary>
+        /// <param name="bodyPart"></param>
+        /// <returns>Body part enum value.</returns>
+        public static BodyPart GetBodyPart(this string bodyPart)
+        {
+            return bodyPart switch
+            {
+                "Chest" => BodyPart.Chest,
+                "Legs" => BodyPart.Legs,
+                "Upper Back" => BodyPart.UpperBack,
+                "Lower Back" => BodyPart.LowerBack,
+                "Shoulders" => BodyPart.Shoulders,
+                "Biceps" => BodyPart.Biceps,
+                "Triceps" => BodyPart.Triceps,
+                "Forearms" => BodyPart.Forearms,
+                "Core" => BodyPart.Core,
+                "Other" => BodyPart.Other,
+                _ => BodyPart.Other,
+            };
+        }
     }
 }

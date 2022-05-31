@@ -2,13 +2,13 @@
 using GetGains.Core.Extensions;
 using GetGains.Core.Models.Exercises;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace GetGains.API.Dtos.Exercises;
 
 public class ExerciseDto
 {
-    [Required]
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     [Required]
     public string Name { get; set; }
@@ -17,17 +17,24 @@ public class ExerciseDto
     public string Category { get; set; }
 
     [Required]
-    [Display(Name = "Body Part")]
     public string BodyPart { get; set; }
 
+    [MaxLength(255)]
     public string? Description { get; set; }
 
-    [Display(Name = "Media URL")]
     public string? MediaUrl { get; set; }
 
     public List<InstructionDto>? Instructions { get; set; }
 
     public string? Author { get; set; }
+
+    [JsonConstructor]
+    public ExerciseDto(string name, string category, string bodyPart)
+    {
+        Name = name;
+        Category = category;
+        BodyPart = bodyPart;
+    }
 
     public ExerciseDto(Exercise exercise, bool populateInstructions = false)
     {
