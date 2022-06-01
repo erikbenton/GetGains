@@ -21,22 +21,26 @@ public class ExerciseController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public IActionResult GetAll(bool populateInstructions = false)
     {
         var exercises = exerciseContext.GetAll();
-        var exerciseData = exercises.Select(e => new ExerciseDto(e, true)).ToList();
+        
+        var exerciseData = exercises.Select(e => 
+            new ExerciseDto(e, populateInstructions))
+            .ToList();
+        
         return Ok(exerciseData);
     }
 
     [HttpGet]
     [Route("{id:int}")]
-    public IActionResult GetById(int id)
+    public IActionResult GetById(int id, bool populateInstructions = true)
     {
         var exercise = exerciseContext.GetById(id);
 
         if (exercise is null) return BadRequest($"No exercise found with id: {id}");
 
-        var exerciseData = new ExerciseDto(exercise, true);
+        var exerciseData = new ExerciseDto(exercise, populateInstructions);
         return Ok(exerciseData);
     }
 
@@ -66,5 +70,17 @@ public class ExerciseController : ControllerBase
         var savedModel = ExerciseMapper.Map(updatedExercise, true);
 
         return Ok(savedModel);
+    }
+
+    [HttpDelete]
+    public IActionResult Delete([FromBody] ExerciseDto deletedModel)
+    {
+        if (!ModelState.IsValid) return BadRequest();
+
+        var deletedExercise = ExerciseMapper.Map(deletedModel);
+
+        var isDeleted = exerciseContext.Delete(deletedExercise);
+
+        return isDeleted ? Ok() : BadRequest("Unable to delete exercise");
     }
 }
