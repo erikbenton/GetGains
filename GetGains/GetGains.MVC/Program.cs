@@ -1,11 +1,14 @@
 using GetGains.Data.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<IExerciseData>(new InMemExerciseData());
+// Add services to the container.
+builder.Services.AddDbContext<GainsDbContext>(opt => opt.UseInMemoryDatabase(databaseName: "WorkoutDatabase"));
+builder.Services.AddTransient<IExerciseData, InMemExerciseData>();
 
 var app = builder.Build();
 

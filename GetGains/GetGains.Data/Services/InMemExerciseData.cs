@@ -4,17 +4,136 @@ using GetGains.Core.Models.Instructions;
 
 namespace GetGains.Data.Services;
 
+public static class InMemState
+{
+    public static bool HasNoData = true;
+}
+
 public class InMemExerciseData : IExerciseData
 {
-    private readonly List<Exercise> _exercises;
+    private readonly GainsDbContext context;
 
-    public InMemExerciseData()
+    public InMemExerciseData(GainsDbContext context)
     {
-        _exercises = new List<Exercise>()
+        this.context = context;
+
+        if (InMemState.HasNoData)
+        {
+            SeedData(context);
+            InMemState.HasNoData = false;
+        }
+    }
+
+    public Exercise Add(Exercise exercise)
+    {
+        exercise.Id = context.Exercises.Max(e => e.Id) + 1;
+
+        context.Exercises.Add(exercise);
+
+        int stepNumber = 1;
+        exercise.Instructions?.ForEach(instruction =>
+        {
+            instruction.StepNumber = stepNumber++;
+            if (instruction.Id == 0)
+            {
+                context.Instructions.Add(instruction);
+            }
+            else
+            {
+                context.Instructions.Update(instruction);
+            }
+        });
+
+        context.SaveChanges();
+
+        return exercise;
+    }
+
+    public bool Delete(Exercise exercise)
+    {
+        var exerciseToRemove = context.Exercises.FirstOrDefault(e => e.Id == exercise.Id);
+
+        if (exerciseToRemove is null) return false;
+
+        context.Remove(exerciseToRemove);
+
+        context.SaveChanges();
+
+        return true;
+    }
+
+    public List<Exercise> GetAll()
+    {
+        return GetAll(false);
+    }
+
+    public List<Exercise> GetAll(bool populateInstructions = false)
+    {
+        var exercises = context.Exercises.OrderBy(e => e.Name).ToList();
+
+        if (populateInstructions)
+        {
+            exercises.ForEach(exer =>
+            {
+                exer.Instructions = context.Instructions
+                    .Where(instr => instr.Exercise.Id == exer.Id)
+                    .ToList();
+            });
+        }
+
+        return exercises;
+    }
+
+    public Exercise? GetById(int id)
+    {
+        return GetById(id, true);
+    }
+
+    public Exercise? GetById(int id, bool populateExercise = true)
+    {
+        var exercise = context.Exercises.FirstOrDefault(e => e.Id == id);
+
+        if (exercise is null) return null;
+
+        if (populateExercise)
+        {
+            exercise.Instructions = context.Instructions
+                .Where(instr => instr.Exercise.Id == exercise.Id)
+                .ToList();
+        }
+
+        return exercise;
+    }
+
+    public bool Update(Exercise exercise)
+    {
+        context.Exercises.Update(exercise);
+
+        int stepNumber = 1;
+        exercise.Instructions?.ForEach(instruction =>
+        {
+            instruction.StepNumber = stepNumber++;
+            if (instruction.Id == 0)
+            {
+                context.Instructions.Add(instruction);
+            }
+            else
+            {
+                context.Instructions.Update(instruction);
+            }
+        });
+
+        context.SaveChanges();
+
+        return true;
+    }
+
+    public static void SeedData(GainsDbContext context)
+    {
+        var _exercises = new List<Exercise>()
         {
             new Exercise()
             {
-                Id = 1,
                 Name = "Bench Press",
                 BodyPart = BodyPart.Chest,
                 Category = ExerciseCategory.Barbell,
@@ -25,7 +144,6 @@ public class InMemExerciseData : IExerciseData
             },
             new Exercise()
             {
-                Id = 2,
                 Name = "Squat",
                 BodyPart = BodyPart.Legs,
                 Category = ExerciseCategory.Barbell,
@@ -36,7 +154,6 @@ public class InMemExerciseData : IExerciseData
             },
             new Exercise()
             {
-                Id = 3,
                 Name = "Pull Up",
                 BodyPart = BodyPart.UpperBack,
                 Category = ExerciseCategory.Bodyweight,
@@ -47,7 +164,6 @@ public class InMemExerciseData : IExerciseData
             },
             new Exercise()
             {
-                Id = 4,
                 Name = "Over Head Press",
                 BodyPart = BodyPart.Shoulders,
                 Category = ExerciseCategory.Barbell,
@@ -58,7 +174,6 @@ public class InMemExerciseData : IExerciseData
             },
             new Exercise()
             {
-                Id = 5,
                 Name = "Dumbbell Curls",
                 BodyPart = BodyPart.Biceps,
                 Category = ExerciseCategory.Dumbbell,
@@ -68,7 +183,6 @@ public class InMemExerciseData : IExerciseData
             },
             new Exercise()
             {
-                Id = 6,
                 Name = "Indoor Biking",
                 BodyPart = BodyPart.Legs,
                 Category = ExerciseCategory.IndoorCardio,
@@ -78,75 +192,37 @@ public class InMemExerciseData : IExerciseData
             },
         };
 
-        int instructionId = 1;
         _exercises.ForEach(exercise =>
         {
             exercise.Instructions = new List<Instruction>()
             {
                 new Instruction(exercise)
                 {
-                    Id = instructionId++,
                     StepNumber = 1,
                     Text = "Warm up"
                 },
                 new Instruction(exercise)
                 {
-                    Id = instructionId++,
                     StepNumber = 2,
                     Text = "Perform the exercise",
                 },
                 new Instruction(exercise)
                 {
-                    Id = instructionId++,
                     StepNumber = 3,
                     Text = "Clean up the workout area",
                 }
             };
         });
-    }
 
-    public Exercise Add(Exercise exercise)
-    {
-        exercise.Id = _exercises.Max(e => e.Id) + 1;
+        // Add them all to the context for now
+        _exercises.ForEach(exercise =>
+        {
+            context.Exercises.Add(exercise);
+            exercise.Instructions?.ForEach(instruction => context
+                .Instructions
+                .Add(instruction));
+        });
 
-        _exercises.Add(exercise);
-
-        return exercise;
-    }
-
-    public bool Delete(Exercise exercise)
-    {
-        var exerciseToRemove = _exercises.FirstOrDefault(e => e.Id == exercise.Id);
-
-        if (exerciseToRemove is null) return false;
-
-        return _exercises.Remove(exerciseToRemove);
-    }
-
-    public List<Exercise> GetAll()
-    {
-        return _exercises.OrderBy(e => e.Name).ToList();
-    }
-
-    public Exercise? GetById(int id)
-    {
-        return _exercises.FirstOrDefault(e => e.Id == id);
-    }
-
-    public bool Update(Exercise exercise)
-    {
-        var exerciseToUpdate = GetById(exercise.Id);
-
-        if (exerciseToUpdate is null) return false;
-
-        exerciseToUpdate.Name = exercise.Name;
-        exerciseToUpdate.BodyPart = exercise.BodyPart;
-        exerciseToUpdate.Category = exercise.Category;
-        exerciseToUpdate.Description = exercise.Description;
-        exerciseToUpdate.MediaUrl = exercise.MediaUrl;
-        exerciseToUpdate.Author = exercise.Author;
-        exerciseToUpdate.Instructions = exercise.Instructions;
-
-        return true;
+        context.SaveChanges();
     }
 }

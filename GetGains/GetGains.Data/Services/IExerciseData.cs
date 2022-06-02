@@ -8,6 +8,10 @@ public interface IExerciseData
 
     Exercise? GetById(int id);
 
+    List<Exercise> GetAll(bool populateInstructions);
+
+    Exercise? GetById(int id, bool populateInstructions);
+
     Exercise Add(Exercise exercise);
 
     bool Update(Exercise exercise);

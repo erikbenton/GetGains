@@ -9,13 +9,18 @@ public class Instruction
     public int Id { get; set; }
 
     [Required]
-    public Exercise Exercise { get; set; }
+    public Exercise Exercise { get; private set; }
 
     [Required]
     public int StepNumber { get; set; }
 
     [Required]
     public string Text { get; set; } = "";
+
+    public Instruction()
+    {
+
+    }
 
     public Instruction(Exercise exercise)
     {

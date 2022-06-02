@@ -1,9 +1,11 @@
 using GetGains.Data.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<IExerciseData>(new InMemExerciseData());
+builder.Services.AddDbContext<GainsDbContext>(opt => opt.UseInMemoryDatabase(databaseName: "WorkoutDatabase"));
+builder.Services.AddTransient<IExerciseData, InMemExerciseData>();
 
 builder.Services.AddCors();
 
@@ -11,7 +13,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 
 var app = builder.Build();
 
