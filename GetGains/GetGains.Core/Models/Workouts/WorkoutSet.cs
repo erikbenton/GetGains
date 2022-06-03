@@ -9,7 +9,14 @@ public class WorkoutSet
     public int Id { get; set; }
 
     [Required]
-    public WorkoutSetGroup WorkoutSetGroup { get; set; }
+    public WorkoutSetGroup WorkoutSetGroup
+    {
+        get => _workoutSetGroup
+            ?? throw new InvalidOperationException("Uninitialized property: " + nameof(WorkoutSetGroup));
+        set => _workoutSetGroup = value;
+    }
+
+    private WorkoutSetGroup? _workoutSetGroup;
 
     [Required]
     public Exercise? Exercise { get; set; }

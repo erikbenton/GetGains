@@ -23,7 +23,7 @@ public class ExerciseController : ControllerBase
     [HttpGet]
     public IActionResult GetAll(bool populateInstructions = false)
     {
-        var exercises = exerciseContext.GetAll();
+        var exercises = exerciseContext.GetAll(populateInstructions);
         
         var exerciseData = exercises.Select(e => 
             new ExerciseDto(e, populateInstructions))
@@ -36,7 +36,7 @@ public class ExerciseController : ControllerBase
     [Route("{id:int}")]
     public IActionResult GetById(int id, bool populateInstructions = true)
     {
-        var exercise = exerciseContext.GetById(id);
+        var exercise = exerciseContext.GetById(id, populateInstructions);
 
         if (exercise is null) return BadRequest($"No exercise found with id: {id}");
 

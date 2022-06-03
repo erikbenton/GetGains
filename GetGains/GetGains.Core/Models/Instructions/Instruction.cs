@@ -9,7 +9,14 @@ public class Instruction
     public int Id { get; set; }
 
     [Required]
-    public Exercise Exercise { get; private set; }
+    public Exercise Exercise
+    {
+        get => _exercise
+            ?? throw new InvalidOperationException("Uninitialized property: " + nameof(Exercise));
+        set => _exercise = value;
+    }
+
+    private Exercise? _exercise;
 
     [Required]
     public int StepNumber { get; set; }
