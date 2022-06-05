@@ -1,10 +1,11 @@
 ﻿using GetGains.Core.Enums;
 using GetGains.Core.Models.Exercises;
 using GetGains.Core.Models.Instructions;
+using Microsoft.EntityFrameworkCore;
 
 namespace GetGains.Data.Services;
 
-public static class InMemState
+public static class InMemExerciseState
 {
     public static bool HasNoData = true;
 }
@@ -17,10 +18,10 @@ public class InMemExerciseData : IExerciseData
     {
         this.context = context;
 
-        if (InMemState.HasNoData)
+        if (InMemExerciseState.HasNoData)
         {
             SeedData(context);
-            InMemState.HasNoData = false;
+            InMemExerciseState.HasNoData = false;
         }
     }
 
@@ -40,7 +41,7 @@ public class InMemExerciseData : IExerciseData
 
     public bool Delete(Exercise exercise)
     {
-        context.Remove(exercise);
+        context.Exercises.Remove(exercise);
 
         context.SaveChanges();
 
@@ -92,13 +93,47 @@ public class InMemExerciseData : IExerciseData
 
     public bool Update(Exercise exercise)
     {
-        int stepNumber = 1;
-        exercise.Instructions?.ForEach(instruction =>
-        {
-            instruction.StepNumber = stepNumber++;
-        });
+        var entry = context.Entry(exercise);
+        entry.State = EntityState.Modified;
 
-        context.Exercises.Update(exercise);
+        var savedInstructions = context.Instructions
+            .Where(instr => instr.Exercise.Id == exercise.Id)
+            .AsNoTracking()
+            .ToList();
+
+        if (exercise.Instructions is not null)
+        {
+            var instructionIdsToRemove = savedInstructions?
+                .Select(instr => instr.Id)
+                .Except(exercise.Instructions
+                    .Select(instr => instr.Id))
+                .ToList();
+
+            savedInstructions?.ForEach(instr =>
+            {
+                if (instructionIdsToRemove != null && instructionIdsToRemove.Contains(instr.Id))
+                {
+                    var entry = context.Entry(instr);
+                    entry.State = EntityState.Deleted;
+                }
+            });
+
+            int stepNumber = 1;
+            exercise.Instructions.ForEach(instr =>
+            {
+                instr.StepNumber = stepNumber++;
+                if (instr.Id == 0)
+                {
+                    context.Instructions.Add(instr);
+                }
+                else
+                {
+                    var entry = context.Entry(instr);
+                    entry.State = EntityState.Modified;
+                }
+            });
+        }
+
         context.SaveChanges();
 
         return true;
