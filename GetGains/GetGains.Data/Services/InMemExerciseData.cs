@@ -26,24 +26,13 @@ public class InMemExerciseData : IExerciseData
 
     public Exercise Add(Exercise exercise)
     {
-        exercise.Id = context.Exercises.Max(e => e.Id) + 1;
-
-        context.Exercises.Add(exercise);
-
         int stepNumber = 1;
         exercise.Instructions?.ForEach(instruction =>
         {
             instruction.StepNumber = stepNumber++;
-            if (instruction.Id == 0)
-            {
-                context.Instructions.Add(instruction);
-            }
-            else
-            {
-                context.Instructions.Update(instruction);
-            }
         });
 
+        context.Exercises.Add(exercise);
         context.SaveChanges();
 
         return exercise;
@@ -51,11 +40,7 @@ public class InMemExerciseData : IExerciseData
 
     public bool Delete(Exercise exercise)
     {
-        var exerciseToRemove = context.Exercises.FirstOrDefault(e => e.Id == exercise.Id);
-
-        if (exerciseToRemove is null) return false;
-
-        context.Remove(exerciseToRemove);
+        context.Remove(exercise);
 
         context.SaveChanges();
 
@@ -107,22 +92,13 @@ public class InMemExerciseData : IExerciseData
 
     public bool Update(Exercise exercise)
     {
-        context.Exercises.Update(exercise);
-
         int stepNumber = 1;
         exercise.Instructions?.ForEach(instruction =>
         {
             instruction.StepNumber = stepNumber++;
-            if (instruction.Id == 0)
-            {
-                context.Instructions.Add(instruction);
-            }
-            else
-            {
-                context.Instructions.Update(instruction);
-            }
         });
 
+        context.Exercises.Update(exercise);
         context.SaveChanges();
 
         return true;

@@ -1,10 +1,6 @@
 ﻿using GetGains.API.Dtos.Exercises;
 using GetGains.API.Mappers;
-using GetGains.Core.Extensions;
-using GetGains.Core.Models.Exercises;
-using GetGains.Core.Models.Instructions;
 using GetGains.Data.Services;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GetGains.API.Controllers;
@@ -38,7 +34,7 @@ public class ExerciseController : ControllerBase
     {
         var exercise = exerciseContext.GetById(id, populateInstructions);
 
-        if (exercise is null) return BadRequest($"No exercise found with id: {id}");
+        if (exercise is null) return NotFound();
 
         var exerciseData = new ExerciseDto(exercise, populateInstructions);
         return Ok(exerciseData);
@@ -53,7 +49,7 @@ public class ExerciseController : ControllerBase
 
         exerciseContext.Add(newExercise);
 
-        var savedModel = ExerciseMapper.Map(newExercise);
+        var savedModel = ExerciseMapper.Map(newExercise, true);
 
         return Ok(savedModel);
     }
@@ -81,6 +77,18 @@ public class ExerciseController : ControllerBase
 
         var isDeleted = exerciseContext.Delete(deletedExercise);
 
-        return isDeleted ? Ok() : BadRequest("Unable to delete exercise");
+        return isDeleted ? NoContent() : Conflict("Unable to delete exercise");
+    }
+
+    [HttpDelete("{id:int}")]
+    public IActionResult DeleteById(int id)
+    {
+        var exercise = exerciseContext.GetById(id);
+
+        if (exercise is null) return NotFound();
+
+        var isDeleted = exerciseContext.Delete(exercise);
+
+        return isDeleted ? NoContent() : Conflict("Unable to delete exercise");
     }
 }

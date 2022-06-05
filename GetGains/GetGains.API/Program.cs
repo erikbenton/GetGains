@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<GainsDbContext>(opt => opt.UseInMemoryDatabase(databaseName: "WorkoutDatabase"));
-builder.Services.AddTransient<IExerciseData, InMemExerciseData>();
+builder.Services.AddScoped<IExerciseData, InMemExerciseData>();
 
 builder.Services.AddCors();
 
