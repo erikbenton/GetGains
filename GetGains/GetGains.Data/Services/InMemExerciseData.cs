@@ -2,6 +2,7 @@
 using GetGains.Core.Models.Exercises;
 using GetGains.Core.Models.Instructions;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GetGains.Data.Services;
 
@@ -106,17 +107,28 @@ public class InMemExerciseData : IExerciseData
 
     private void UpdateInstructions(Exercise exercise)
     {
-        if (exercise.Instructions is not null)
-        {
-            RemoveDeletedInstructions(exercise);
+        if (exercise.Instructions is null) return;
 
-            int stepNumber = 1;
-            exercise.Instructions.ForEach(instr =>
-            {
-                instr.StepNumber = stepNumber++;
-                SaveInstruction(instr);
-            });
-        }
+        RemoveDeletedInstructions(exercise);
+        IndexInstructions(exercise.Instructions);
+        SaveInstructions(exercise.Instructions);
+    }
+
+    private static void IndexInstructions(List<Instruction> instructions)
+    {
+        int stepNumber = 1;
+        instructions.ForEach(instr =>
+        {
+            instr.StepNumber = stepNumber++;
+        });
+    }
+
+    private void SaveInstructions(List<Instruction> instructions)
+    {
+        instructions.ForEach(instr =>
+        {
+            SaveInstruction(instr);
+        });
     }
 
     private void SaveInstruction(Instruction instruction)
@@ -135,31 +147,26 @@ public class InMemExerciseData : IExerciseData
     {
         if (exercise.Instructions is null) return;
 
+        // Get the instruction Ids saved in database
         var instructionsInDb = context.Instructions
             .Where(instr => instr.Exercise.Id == exercise.Id)
             .AsNoTracking()
             .ToList();
 
-        var instructionIdsToRemove = instructionsInDb?
-            .Select(instr => instr.Id)
-            .Except(exercise.Instructions
-                .Select(instr => instr.Id))
-            .ToList();
-
-        if (instructionIdsToRemove is null) return;
-
-        instructionsInDb?.ForEach(instr =>
-        {
-            if (instructionIdsToRemove.Contains(instr.Id))
+        // Delete instructions with Ids only in database
+        instructionsInDb?
+            .Except(exercise.Instructions, new InstructionIDComparer())
+            .ToList()
+            .ForEach(instr =>
             {
                 MarkEntityDeleted(instr);
-            }
-        });
+            });
     }
 
     private void MarkEntityModified<T>(T entity)
     {
         if (entity is null) return;
+
         var entry = context.Entry(entity);
         entry.State = EntityState.Modified;
     }
@@ -167,11 +174,12 @@ public class InMemExerciseData : IExerciseData
     private void MarkEntityDeleted<T>(T entity)
     {
         if (entity is null) return;
+
         var entry = context.Entry(entity);
         entry.State = EntityState.Deleted;
     }
 
-    public static void SeedData(GainsDbContext context)
+    private static void SeedData(GainsDbContext context)
     {
         var _exercises = new List<Exercise>()
         {
@@ -268,4 +276,21 @@ public class InMemExerciseData : IExerciseData
 
         context.SaveChanges();
     }
+
+    // TODO Find better location for comparer when/after implementing sql
+    private class InstructionIDComparer : EqualityComparer<Instruction>
+    {
+        public override bool Equals(Instruction? x, Instruction? y)
+        {
+            if (x == null || y == null) return false;
+
+            return x.Id == y.Id;
+        }
+
+        public override int GetHashCode([DisallowNull] Instruction obj)
+        {
+            return obj.Id.GetHashCode();
+        }
+    }
 }
+
