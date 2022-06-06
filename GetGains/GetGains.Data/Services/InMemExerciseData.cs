@@ -63,6 +63,7 @@ public class InMemExerciseData : IExerciseData
             {
                 exer.Instructions = context.Instructions
                     .Where(instr => instr.Exercise.Id == exer.Id)
+                    .OrderBy(instr => instr.StepNumber)
                     .ToList();
             });
         }
@@ -85,6 +86,7 @@ public class InMemExerciseData : IExerciseData
         {
             exercise.Instructions = context.Instructions
                 .Where(instr => instr.Exercise.Id == exercise.Id)
+                .OrderBy(instr => instr.StepNumber)
                 .ToList();
         }
 
@@ -93,50 +95,80 @@ public class InMemExerciseData : IExerciseData
 
     public bool Update(Exercise exercise)
     {
-        var entry = context.Entry(exercise);
-        entry.State = EntityState.Modified;
+        MarkEntityModified(exercise);
 
-        var savedInstructions = context.Instructions
-            .Where(instr => instr.Exercise.Id == exercise.Id)
-            .AsNoTracking()
-            .ToList();
+        UpdateInstructions(exercise);
 
+        context.SaveChanges();
+
+        return true;
+    }
+
+    private void UpdateInstructions(Exercise exercise)
+    {
         if (exercise.Instructions is not null)
         {
-            var instructionIdsToRemove = savedInstructions?
-                .Select(instr => instr.Id)
-                .Except(exercise.Instructions
-                    .Select(instr => instr.Id))
-                .ToList();
-
-            savedInstructions?.ForEach(instr =>
-            {
-                if (instructionIdsToRemove != null && instructionIdsToRemove.Contains(instr.Id))
-                {
-                    var entry = context.Entry(instr);
-                    entry.State = EntityState.Deleted;
-                }
-            });
+            RemoveDeletedInstructions(exercise);
 
             int stepNumber = 1;
             exercise.Instructions.ForEach(instr =>
             {
                 instr.StepNumber = stepNumber++;
-                if (instr.Id == 0)
-                {
-                    context.Instructions.Add(instr);
-                }
-                else
-                {
-                    var entry = context.Entry(instr);
-                    entry.State = EntityState.Modified;
-                }
+                SaveInstruction(instr);
             });
         }
+    }
 
-        context.SaveChanges();
+    private void SaveInstruction(Instruction instruction)
+    {
+        if (instruction.IsNewEntry)
+        {
+            context.Instructions.Add(instruction);
+        }
+        else
+        {
+            MarkEntityModified(instruction);
+        }
+    }
 
-        return true;
+    private void RemoveDeletedInstructions(Exercise exercise)
+    {
+        if (exercise.Instructions is null) return;
+
+        var instructionsInDb = context.Instructions
+            .Where(instr => instr.Exercise.Id == exercise.Id)
+            .AsNoTracking()
+            .ToList();
+
+        var instructionIdsToRemove = instructionsInDb?
+            .Select(instr => instr.Id)
+            .Except(exercise.Instructions
+                .Select(instr => instr.Id))
+            .ToList();
+
+        if (instructionIdsToRemove is null) return;
+
+        instructionsInDb?.ForEach(instr =>
+        {
+            if (instructionIdsToRemove.Contains(instr.Id))
+            {
+                MarkEntityDeleted(instr);
+            }
+        });
+    }
+
+    private void MarkEntityModified<T>(T entity)
+    {
+        if (entity is null) return;
+        var entry = context.Entry(entity);
+        entry.State = EntityState.Modified;
+    }
+
+    private void MarkEntityDeleted<T>(T entity)
+    {
+        if (entity is null) return;
+        var entry = context.Entry(entity);
+        entry.State = EntityState.Deleted;
     }
 
     public static void SeedData(GainsDbContext context)

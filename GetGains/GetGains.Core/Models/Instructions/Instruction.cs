@@ -24,6 +24,8 @@ public class Instruction
     [Required]
     public string Text { get; set; } = "";
 
+    public bool IsNewEntry { get; set; } = false;
+
     public Instruction()
     {
 

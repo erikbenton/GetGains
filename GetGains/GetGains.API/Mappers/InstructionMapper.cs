@@ -11,6 +11,7 @@ public class InstructionMapper
         return new Instruction(referenceExercise)
         {
             Id = model.Id == null ? 0 : model.Id.Value,
+            IsNewEntry = model.Id == null,
             StepNumber = model.StepNumber,
             Text = model.Text,
         };
