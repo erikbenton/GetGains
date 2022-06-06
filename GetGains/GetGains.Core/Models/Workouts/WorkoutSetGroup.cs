@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GetGains.Core.Models.Exercises;
+using System.ComponentModel.DataAnnotations;
 
 namespace GetGains.Core.Models.Workouts;
 
@@ -17,16 +18,27 @@ public class WorkoutSetGroup
 
     private Workout? _workout;
 
-    public List<WorkoutSet>? Exercises { get; set; }
+    [Required]
+    public Exercise Exercise
+    {
+        get => _exercise
+            ?? throw new InvalidOperationException("Uninitialized property: " + nameof(Exercise));
+        set => _exercise = value;
+    }
+
+    private Exercise? _exercise;
+
+    public List<WorkoutSet>? Sets { get; set; }
 
     public WorkoutSetGroup()
     {
 
     }
 
-    public WorkoutSetGroup(Workout workout)
+    public WorkoutSetGroup(Workout workout, Exercise exercise)
     {
         Workout = workout;
+        Exercise = exercise;
     }
 
 }

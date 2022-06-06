@@ -6,11 +6,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GetGains.Data.Services;
 
-public static class InMemExerciseState
-{
-    public static bool HasNoData = true;
-}
-
 public class InMemExerciseData : IExerciseData
 {
     private readonly GainsDbContext context;
@@ -18,12 +13,6 @@ public class InMemExerciseData : IExerciseData
     public InMemExerciseData(GainsDbContext context)
     {
         this.context = context;
-
-        if (InMemExerciseState.HasNoData)
-        {
-            SeedData(context);
-            InMemExerciseState.HasNoData = false;
-        }
     }
 
     public Exercise Add(Exercise exercise)
@@ -179,102 +168,171 @@ public class InMemExerciseData : IExerciseData
         entry.State = EntityState.Deleted;
     }
 
-    private static void SeedData(GainsDbContext context)
+    public static void SeedData(IExerciseData context)
     {
-        var _exercises = new List<Exercise>()
+        var benchPress = new Exercise()
         {
-            new Exercise()
-            {
-                Name = "Bench Press",
-                BodyPart = BodyPart.Chest,
-                Category = ExerciseCategory.Barbell,
-                Description = "Press the bar up from your chest",
-                Instructions = null,
-                MediaUrl = "https://images.unsplash.com/photo-1534368959876-26bf04f2c947",
-                Author = "Erik Benton"
-            },
-            new Exercise()
-            {
-                Name = "Squat",
-                BodyPart = BodyPart.Legs,
-                Category = ExerciseCategory.Barbell,
-                Description = "Stand up with the barbell over your shoulders",
-                Instructions = null,
-                MediaUrl = "https://images.unsplash.com/photo-1596357395217-80de13130e92",
-                Author = "Kyle McNurmann"
-            },
-            new Exercise()
-            {
-                Name = "Pull Up",
-                BodyPart = BodyPart.UpperBack,
-                Category = ExerciseCategory.Bodyweight,
-                Description = "Pull yourself up over the bar",
-                Instructions = null,
-                MediaUrl = "https://images.unsplash.com/photo-1597347316205-36f6c451902a",
-                Author = "Alexa Stils"
-            },
-            new Exercise()
-            {
-                Name = "Over Head Press",
-                BodyPart = BodyPart.Shoulders,
-                Category = ExerciseCategory.Barbell,
-                Description = "Press the bar up over your head",
-                Instructions = null,
-                MediaUrl = "https://images.unsplash.com/photo-1532029837206-abbe2b7620e3",
-                Author = "Jeff Lovely"
-            },
-            new Exercise()
-            {
-                Name = "Dumbbell Curls",
-                BodyPart = BodyPart.Biceps,
-                Category = ExerciseCategory.Dumbbell,
-                Description = "Curl the dumbbell up from your waist to your shoulder",
-                Instructions = null,
-                Author = "Mike Vincent"
-            },
-            new Exercise()
-            {
-                Name = "Indoor Biking",
-                BodyPart = BodyPart.Legs,
-                Category = ExerciseCategory.IndoorCardio,
-                Description = "Bike on a bike trainer",
-                Instructions = null,
-                Author = "Sarah Bennet"
-            },
+            Name = "Bench Press",
+            BodyPart = BodyPart.Chest,
+            Category = ExerciseCategory.Barbell,
+            Description = "Press the bar up from your chest",
+            Instructions = null,
+            MediaUrl = "https://images.unsplash.com/photo-1534368959876-26bf04f2c947",
+            Author = "Erik Benton"
+        };
+        var squat = new Exercise()
+        {
+            Name = "Squat",
+            BodyPart = BodyPart.Legs,
+            Category = ExerciseCategory.Barbell,
+            Description = "Stand up with the barbell over your shoulders",
+            Instructions = null,
+            MediaUrl = "https://images.unsplash.com/photo-1596357395217-80de13130e92",
+            Author = "Kyle McNurmann"
+        };
+        var pullUp = new Exercise()
+        {
+            Name = "Pull Up",
+            BodyPart = BodyPart.UpperBack,
+            Category = ExerciseCategory.Bodyweight,
+            Description = "Pull yourself up over the bar",
+            Instructions = null,
+            MediaUrl = "https://images.unsplash.com/photo-1597347316205-36f6c451902a",
+            Author = "Alexa Stils"
+        };
+        var overHeadPress = new Exercise()
+        {
+            Name = "Over Head Press",
+            BodyPart = BodyPart.Shoulders,
+            Category = ExerciseCategory.Barbell,
+            Description = "Press the bar up over your head",
+            Instructions = null,
+            MediaUrl = "https://images.unsplash.com/photo-1532029837206-abbe2b7620e3",
+            Author = "Jeff Lovely"
+        };
+        var dumbbellCurls = new Exercise()
+        {
+            Name = "Dumbbell Curls",
+            BodyPart = BodyPart.Biceps,
+            Category = ExerciseCategory.Dumbbell,
+            Description = "Curl the dumbbell up from your waist to your shoulder",
+            Instructions = null,
+            Author = "Mike Vincent"
+        };
+        var indoorBiking = new Exercise()
+        {
+            Name = "Indoor Biking",
+            BodyPart = BodyPart.Legs,
+            Category = ExerciseCategory.IndoorCardio,
+            Description = "Bike on a bike trainer",
+            Instructions = null,
+            Author = "Sarah Bennet"
+        };
+        var weightedCrunch = new Exercise()
+        {
+            Name = "Weighted Crunch",
+            BodyPart = BodyPart.Core,
+            Category = ExerciseCategory.Dumbbell,
+            Description = "Crunches with heavy dumbbell or plate",
+            Instructions = null,
+            Author = "Josh Sylar"
+        };
+        var bentOverRows = new Exercise()
+        {
+            Name = "Bent Over Rows",
+            BodyPart = BodyPart.UpperBack,
+            Category = ExerciseCategory.Barbell,
+            Description = "Bend over and row the barbell",
+            Instructions = null,
+            Author = "Nathan Trant"
+        };
+        var lateralRaises = new Exercise()
+        {
+            Name = "Lateral Raises",
+            BodyPart = BodyPart.Shoulders,
+            Category = ExerciseCategory.Dumbbell,
+            Description = "Raise fully extended arms with dumbbells in them",
+            Instructions = null,
+            Author = "Tasha Heffle"
+        };
+        var calfRaises = new Exercise()
+        {
+            Name = "Calf Raises",
+            BodyPart = BodyPart.Calves,
+            Category = ExerciseCategory.Barbell,
+            Description = "Hold barbell in hands while standing on tippy-toes",
+            Instructions = null,
+            Author = "Becky Yeung"
+        };
+        var benchPressDB = new Exercise()
+        {
+            Name = "Bench Press",
+            BodyPart = BodyPart.Chest,
+            Category = ExerciseCategory.Dumbbell,
+            Description = "Bench press with dumbbells",
+            Instructions = null,
+            Author = "Charles Orbeiter"
+        };
+        var arnoldPress = new Exercise()
+        {
+            Name = "Arnold Press",
+            BodyPart = BodyPart.Shoulders,
+            Category = ExerciseCategory.Dumbbell,
+            Description = "Dumbbell shoulder press with full shoulder rotation",
+            Instructions = null,
+        };
+        var dip = new Exercise()
+        {
+            Name = "Dip",
+            BodyPart = BodyPart.Triceps,
+            Category = ExerciseCategory.Bodyweight,
+            Description = "Hang so that you can slowly lower/dip your body using your arms/triceps",
+            Instructions = null,
+        };
+        var exercises = new List<Exercise>()
+        {
+            benchPress,
+            squat,
+            pullUp,
+            overHeadPress,
+            dumbbellCurls,
+            indoorBiking,
+            weightedCrunch,
+            bentOverRows,
+            lateralRaises,
+            calfRaises,
+            benchPressDB,
+            arnoldPress,
+            dip,
         };
 
-        _exercises.ForEach(exercise =>
+        exercises.ForEach(exercise =>
         {
             exercise.Instructions = new List<Instruction>()
             {
                 new Instruction(exercise)
                 {
                     StepNumber = 1,
-                    Text = "Warm up"
+                    Text = "Warm up",
+                    IsNewEntry = true,
                 },
                 new Instruction(exercise)
                 {
                     StepNumber = 2,
                     Text = "Perform the exercise",
+                    IsNewEntry = true,
                 },
                 new Instruction(exercise)
                 {
                     StepNumber = 3,
                     Text = "Clean up the workout area",
+                    IsNewEntry = true,
                 }
             };
         });
 
         // Add them all to the context for now
-        _exercises.ForEach(exercise =>
-        {
-            context.Exercises.Add(exercise);
-            exercise.Instructions?.ForEach(instruction => context
-                .Instructions
-                .Add(instruction));
-        });
-
-        context.SaveChanges();
+        exercises.ForEach(exercise => context.Add(exercise));
     }
 
     // TODO Find better location for comparer when/after implementing sql

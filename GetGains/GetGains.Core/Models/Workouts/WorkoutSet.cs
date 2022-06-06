@@ -19,7 +19,14 @@ public class WorkoutSet
     private WorkoutSetGroup? _workoutSetGroup;
 
     [Required]
-    public Exercise? Exercise { get; set; }
+    public Exercise Exercise
+    {
+        get => _exercise
+            ?? throw new InvalidOperationException("Uninitialized property: " + nameof(Exercise));
+        set => _exercise = value;
+    }
+
+    private Exercise? _exercise;
 
     public int? Reps { get; set; }
 
@@ -44,5 +51,6 @@ public class WorkoutSet
     public WorkoutSet(WorkoutSetGroup workoutSetGroup)
     {
         WorkoutSetGroup = workoutSetGroup;
+        Exercise = workoutSetGroup.Exercise;
     }
 }
