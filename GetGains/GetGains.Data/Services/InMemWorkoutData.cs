@@ -16,8 +16,11 @@ public class InMemWorkoutData : IWorkoutData
 
     public Workout Add(Workout workout)
     {
+        IndexSetNumbers(workout);
+
         context.Workouts.Add(workout);
         context.SaveChanges();
+        
         return workout;
     }
 
@@ -37,6 +40,11 @@ public class InMemWorkoutData : IWorkoutData
     {
         var workouts = context.Workouts.OrderBy(x => x.Name).ToList();
 
+        if (populateSets)
+        {
+            workouts.ForEach(PopulateSets);
+        }
+
         return workouts;
     }
 
@@ -50,12 +58,47 @@ public class InMemWorkoutData : IWorkoutData
         var workout = context.Workouts
             .FirstOrDefault(workout => workout.Id == id);
 
+        if (populateSets && workout is not null)
+        {
+            PopulateSets(workout);
+        }
+
         return workout;
     }
 
     public bool Update(Workout workout)
     {
         throw new NotImplementedException();
+    }
+
+    private void IndexSetNumbers(Workout workout)
+    {
+        int groupNumber = 1;
+        workout.ExerciseGroups?.ForEach(group =>
+        {
+            group.GroupNumber = groupNumber++;
+            int setNumber = 1;
+            group.Sets?.ForEach(set =>
+            {
+                set.SetNumber = setNumber++;
+            });
+        });
+    }
+
+    private void PopulateSets(Workout workout)
+    {
+        workout.ExerciseGroups = context.WorkoutSetGroups
+                        .Where(group => group.Workout.Id == workout.Id)
+                        .OrderBy(group => group.GroupNumber)
+                        .ToList();
+
+        workout.ExerciseGroups.ForEach(group =>
+        {
+            group.Sets = context.WorkoutSets
+                .Where(set => set.WorkoutSetGroup.Id == set.Id)
+                .OrderBy(set => set.SetNumber)
+                .ToList();
+        });
     }
 
     public static void SeedData(IWorkoutData workoutContext, List<Exercise> exercises)
@@ -76,7 +119,10 @@ public class InMemWorkoutData : IWorkoutData
             var arnoldPress = exercises.First(exercise => exercise.Name == "Arnold Press");
             var dip = exercises.First(exercise => exercise.Name == "Dip");
 
-            var chestWorkout = new Workout("Chest", ExerciseCategory.Barbell);
+            var chestWorkout = new Workout("Chest", ExerciseCategory.Barbell)
+            {
+                Description = "Focus on Chest and other pushing muscles."
+            };
             chestWorkout.ExerciseGroups = new List<WorkoutSetGroup>()
             {
                 new WorkoutSetGroup(chestWorkout, benchPress),
@@ -84,7 +130,10 @@ public class InMemWorkoutData : IWorkoutData
                 new WorkoutSetGroup(chestWorkout, overHeadPress)
             };
 
-            var backWorkout = new Workout("Back", ExerciseCategory.Barbell);
+            var backWorkout = new Workout("Back", ExerciseCategory.Barbell)
+            {
+                Description = "Focus on Upper back and other pulling muscles."
+            };
             backWorkout.ExerciseGroups = new List<WorkoutSetGroup>()
             {
                 new WorkoutSetGroup(backWorkout, bentOverRows),
@@ -92,7 +141,10 @@ public class InMemWorkoutData : IWorkoutData
                 new WorkoutSetGroup(backWorkout, dumbbellCurls),
             };
 
-            var legsCoreWorkout = new Workout("Legs and Core", ExerciseCategory.Barbell);
+            var legsCoreWorkout = new Workout("Legs and Core", ExerciseCategory.Barbell)
+            {
+                Description = "Focus on Leg foundations and Core strength." 
+            };
             legsCoreWorkout.ExerciseGroups = new List<WorkoutSetGroup>()
             {
                 new WorkoutSetGroup(legsCoreWorkout, squat),
@@ -100,7 +152,10 @@ public class InMemWorkoutData : IWorkoutData
                 new WorkoutSetGroup(legsCoreWorkout, weightedCrunch),
             };
 
-            var armsShoulderWorkout = new Workout("Arms and Shoulders", ExerciseCategory.Dumbbell);
+            var armsShoulderWorkout = new Workout("Arms and Shoulders", ExerciseCategory.Dumbbell)
+            {
+                Description = "Focus on the \"accessory muscles\" that support most upper movement."
+            };
             armsShoulderWorkout.ExerciseGroups = new List<WorkoutSetGroup>()
             {
                 new WorkoutSetGroup(armsShoulderWorkout, arnoldPress),
@@ -109,7 +164,10 @@ public class InMemWorkoutData : IWorkoutData
                 new WorkoutSetGroup(armsShoulderWorkout, pullUp),
             };
 
-            var bikingWorkout = new Workout("Biking", ExerciseCategory.IndoorCardio);
+            var bikingWorkout = new Workout("Biking", ExerciseCategory.IndoorCardio)
+            {
+                Description = "Convenient, low-impact, high resistance cardio."
+            };
             bikingWorkout.ExerciseGroups = new List<WorkoutSetGroup>()
             {
                 new WorkoutSetGroup(bikingWorkout, indoorBiking),

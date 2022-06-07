@@ -1,4 +1,5 @@
 ﻿using GetGains.API.Dtos.Exercises;
+using GetGains.API.Dtos.Workouts;
 using GetGains.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,6 +53,9 @@ public class AdminController : ControllerBase
 
         var workouts = workoutContext.GetAll();
 
-        return Ok(workouts);
+        var workoutModels = workouts
+            .Select(w => new WorkoutDto(w, true)).ToList();
+
+        return Ok(workoutModels);
     }
 }

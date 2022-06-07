@@ -28,6 +28,9 @@ public class WorkoutSet
 
     private Exercise? _exercise;
 
+    [Required]
+    public int SetNumber { get; set; }
+
     public int? Reps { get; set; }
 
     public double? Weight { get; set; }
