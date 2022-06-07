@@ -45,18 +45,14 @@ public class InMemExerciseData : IExerciseData
 
     public List<Exercise> GetAll(bool populateInstructions = false)
     {
-        var exercises = context.Exercises.OrderBy(e => e.Name).ToList();
-
-        if (populateInstructions)
-        {
-            exercises.ForEach(exer =>
-            {
-                exer.Instructions = context.Instructions
-                    .Where(instr => instr.Exercise.Id == exer.Id)
-                    .OrderBy(instr => instr.StepNumber)
-                    .ToList();
-            });
-        }
+        var exercises = populateInstructions
+            ? context.Exercises
+                .OrderBy(exer => exer.Name)
+                .Include(exer => exer.Instructions)
+                .ToList()
+            : context.Exercises
+                .OrderBy(exer => exer.Name)
+                .ToList();
 
         return exercises;
     }
@@ -68,16 +64,13 @@ public class InMemExerciseData : IExerciseData
 
     public Exercise? GetById(int id, bool populateExercise = true)
     {
-        var exercise = context.Exercises.FirstOrDefault(e => e.Id == id);
+        var exercise = context.Exercises
+            .Include(e => e.Instructions)
+            .FirstOrDefault(e => e.Id == id);
 
-        if (exercise is null) return null;
-
-        if (populateExercise)
+        if (populateExercise == false && exercise is not null)
         {
-            exercise.Instructions = context.Instructions
-                .Where(instr => instr.Exercise.Id == exercise.Id)
-                .OrderBy(instr => instr.StepNumber)
-                .ToList();
+            exercise.Instructions = new List<Instruction>();
         }
 
         return exercise;

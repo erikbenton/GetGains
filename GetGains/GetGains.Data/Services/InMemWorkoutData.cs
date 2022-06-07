@@ -2,6 +2,7 @@
 using GetGains.Core.Models.Exercises;
 using GetGains.Core.Models.Instructions;
 using GetGains.Core.Models.Workouts;
+using Microsoft.EntityFrameworkCore;
 
 namespace GetGains.Data.Services;
 
@@ -88,15 +89,17 @@ public class InMemWorkoutData : IWorkoutData
     private void PopulateSets(Workout workout)
     {
         workout.ExerciseGroups = context.WorkoutSetGroups
-                        .Where(group => group.Workout.Id == workout.Id)
-                        .OrderBy(group => group.GroupNumber)
-                        .ToList();
+            .Where(group => group.Workout.Id == workout.Id)
+            .Include(group => group.Exercise)
+            .OrderBy(group => group.GroupNumber)
+            .ToList();
 
         workout.ExerciseGroups.ForEach(group =>
         {
             group.Sets = context.WorkoutSets
                 .Where(set => set.WorkoutSetGroup.Id == set.Id)
                 .OrderBy(set => set.SetNumber)
+                .Include(set => set.Exercise)
                 .ToList();
         });
     }

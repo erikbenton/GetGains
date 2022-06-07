@@ -6,7 +6,11 @@ public interface IWorkoutData
 {
     List<Workout> GetAll();
 
+    List<Workout> GetAll(bool populateSets = false);
+
     Workout? GetById(int id);
+
+    Workout? GetById(int id, bool populateSets = true);
 
     Workout Add(Workout workout);
 
