@@ -22,6 +22,7 @@ namespace GetGains.Core.Extensions
                 BodyPart.Triceps => "Triceps",
                 BodyPart.Forearms => "Forearms",
                 BodyPart.Core => "Core",
+                BodyPart.Calves => "Calves",
                 BodyPart.Other => "Other",
                 _ => "N/A",
             };
@@ -45,6 +46,7 @@ namespace GetGains.Core.Extensions
                 "Triceps" => BodyPart.Triceps,
                 "Forearms" => BodyPart.Forearms,
                 "Core" => BodyPart.Core,
+                "Calves" => BodyPart.Calves,
                 "Other" => BodyPart.Other,
                 _ => BodyPart.Other,
             };

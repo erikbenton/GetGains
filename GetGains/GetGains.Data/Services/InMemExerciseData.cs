@@ -54,24 +54,35 @@ public class InMemExerciseData : IExerciseData
                 .OrderBy(exer => exer.Name)
                 .ToList();
 
+        exercises.ForEach(exer =>
+        {
+            exer.Instructions = exer.Instructions?
+                .OrderBy(instr => instr.StepNumber).ToList();
+        });
+
         return exercises;
     }
 
-    public Exercise? GetById(int id)
+    public Exercise? GetExercise(int id)
     {
-        return GetById(id, true);
+        return GetExercise(id, true);
     }
 
-    public Exercise? GetById(int id, bool populateExercise = true)
+    public Exercise? GetExercise(int id, bool populateExercise = true)
     {
         var exercise = context.Exercises
             .Include(e => e.Instructions)
             .FirstOrDefault(e => e.Id == id);
 
-        if (populateExercise == false && exercise is not null)
+        if (exercise is null) return null;
+
+        if (populateExercise == false)
         {
             exercise.Instructions = new List<Instruction>();
         }
+
+        exercise.Instructions = exercise.Instructions?
+            .OrderBy(instr => instr.StepNumber).ToList();
 
         return exercise;
     }

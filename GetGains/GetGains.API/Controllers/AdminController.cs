@@ -1,5 +1,6 @@
 ﻿using GetGains.API.Dtos.Exercises;
 using GetGains.API.Dtos.Workouts;
+using GetGains.API.Mappers;
 using GetGains.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,7 +33,7 @@ public class AdminController : ControllerBase
         var exercises = exerciseContext.GetAll(true);
 
         var exerciseData = exercises.Select(e =>
-            new ExerciseDto(e, true))
+            ExerciseMapper.Map(e, true))
             .ToList();
 
         return Ok(exerciseData);

@@ -6,11 +6,11 @@ public interface IExerciseData
 {
     List<Exercise> GetAll();
 
-    Exercise? GetById(int id);
+    Exercise? GetExercise(int id);
 
     List<Exercise> GetAll(bool populateInstructions);
 
-    Exercise? GetById(int id, bool populateInstructions);
+    Exercise? GetExercise(int id, bool populateInstructions);
 
     Exercise Add(Exercise exercise);
 
