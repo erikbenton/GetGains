@@ -22,15 +22,15 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost("seedExercises")]
-    public IActionResult SeedExercises([FromBody] string? password)
+    public async Task<IActionResult> SeedExercises([FromBody] string? password)
     {
         if (password is null) return Unauthorized();
 
         if (password != "admin") return Unauthorized();
 
-        InMemExerciseData.SeedData(exerciseContext);
+        await InMemExerciseData.SeedData(exerciseContext);
 
-        var exercises = exerciseContext.GetAll(true);
+        var exercises = await exerciseContext.GetExercisesAsync(true);
 
         var exerciseData = exercises.Select(e =>
             ExerciseMapper.Map(e, true))
@@ -40,15 +40,15 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost("seedWorkouts")]
-    public IActionResult SeedWorkouts([FromBody] string? password)
+    public async Task<IActionResult> SeedWorkouts([FromBody] string? password)
     {
         if (password is null) return Unauthorized();
 
         if (password != "admin") return Unauthorized();
 
-        var exercises = exerciseContext.GetAll();
+        var exercises = await exerciseContext.GetExercisesAsync(true);
 
-        if (exercises.Count == 0) return BadRequest();
+        if (exercises.Count() == 0) return BadRequest();
 
         InMemWorkoutData.SeedData(workoutContext, exercises);
 

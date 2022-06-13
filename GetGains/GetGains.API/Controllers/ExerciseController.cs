@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using GetGains.API.Dtos.Exercises;
+﻿using GetGains.API.Dtos.Exercises;
 using GetGains.API.Mappers;
-using GetGains.Core.Models.Exercises;
 using GetGains.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,20 +18,20 @@ public class ExerciseController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll(bool populateInstructions = false)
+    public async Task<IActionResult> GetAll(bool populateInstructions = false)
     {
-        var exercises = exerciseContext.GetAll(populateInstructions);
+        var exercises = await exerciseContext.GetExercisesAsync(populateInstructions);
 
         var exerciseData = exercises.Select(exer =>
-            ExerciseMapper.Map(exer));
+            ExerciseMapper.Map(exer, populateInstructions));
         
         return Ok(exerciseData);
     }
 
     [HttpGet("{id:int}", Name = "GetExercise")]
-    public IActionResult GetExercise(int id, bool populateInstructions = true)
+    public async Task<IActionResult> GetExercise(int id, bool populateInstructions = true)
     {
-        var exercise = exerciseContext.GetExercise(id, populateInstructions);
+        var exercise = await exerciseContext.GetExerciseAsync(id, populateInstructions);
 
         if (exercise is null) return NotFound();
 
@@ -43,11 +41,15 @@ public class ExerciseController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] ExerciseDto newModel, bool includeData = false)
+    public async Task<IActionResult> CreateExercise(
+        [FromBody] ExerciseDto newModel,
+        bool includeData = false)
     {
         var newExercise = ExerciseMapper.Map(newModel);
 
-        exerciseContext.Add(newExercise);
+        exerciseContext.AddExercise(newExercise);
+
+        await exerciseContext.SaveChangesAsync();
 
         var savedModel = ExerciseMapper.Map(newExercise);
 
@@ -57,24 +59,31 @@ public class ExerciseController : ControllerBase
             includeData ? savedModel : null);
     }
 
-    [HttpPut]
-    public IActionResult Put([FromBody] ExerciseDto updatedModel, bool includeData = false)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateExercise(
+        int id,
+        [FromBody] ExerciseDto updatedModel,
+        bool includeData = false)
     {
-        var updatedExercise = ExerciseMapper.Map(updatedModel);
+        var exerciseInDb = await exerciseContext.GetExerciseAsync(id, true);
 
-        exerciseContext.Update(updatedExercise);
+        if (exerciseInDb is null) return NotFound();
+
+        ExerciseMapper.MapFromTo(updatedModel, exerciseInDb);
+
+        await exerciseContext.SaveChangesAsync();
 
         if (includeData)
         {
-            var savedModel = ExerciseMapper.Map(updatedExercise, true);
-            return Ok(savedModel);
+            var updatedExerciseModel = ExerciseMapper.Map(exerciseInDb, true);
+            return Ok(updatedExerciseModel);
         }
 
         return NoContent();
     }
 
     [HttpDelete]
-    public IActionResult Delete([FromBody] ExerciseDto deletedModel)
+    public IActionResult DeleteExercise([FromBody] ExerciseDto deletedModel)
     {
         var deletedExercise = ExerciseMapper.Map(deletedModel);
 
@@ -84,9 +93,9 @@ public class ExerciseController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public IActionResult DeleteById(int id)
+    public async Task<IActionResult> DeleteExerciseById(int id)
     {
-        var exercise = exerciseContext.GetExercise(id);
+        var exercise = await exerciseContext.GetExerciseAsync(id, true);
 
         if (exercise is null) return NotFound();
 

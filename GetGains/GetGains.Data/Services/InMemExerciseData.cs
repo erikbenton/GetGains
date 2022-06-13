@@ -2,6 +2,7 @@
 using GetGains.Core.Models.Exercises;
 using GetGains.Core.Models.Instructions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Diagnostics.CodeAnalysis;
 
 namespace GetGains.Data.Services;
@@ -15,7 +16,7 @@ public class InMemExerciseData : IExerciseData
         this.context = context;
     }
 
-    public Exercise Add(Exercise exercise)
+    public void AddExercise(Exercise exercise)
     {
         int stepNumber = 1;
         exercise.Instructions?.ForEach(instruction =>
@@ -24,9 +25,67 @@ public class InMemExerciseData : IExerciseData
         });
 
         context.Exercises.Add(exercise);
-        context.SaveChanges();
+    }
+
+    public async Task<List<Exercise>> GetExercisesAsync(bool populateInstructions)
+    {
+        var exercises = populateInstructions
+            ? await context.Exercises
+                .OrderBy(exer => exer.Name)
+                .Include(exer => exer.Instructions)
+                .ToListAsync()
+            : await context.Exercises
+                .OrderBy(exer => exer.Name)
+                .ToListAsync();
+
+        exercises.ForEach(exer =>
+        {
+            exer.Instructions = exer.Instructions?
+                .OrderBy(instr => instr.StepNumber).ToList();
+        });
+
+        return exercises;
+    }
+
+    public async Task<Exercise?> GetExerciseAsync(int id, bool populateInstructions)
+    {
+        var changedEntriesCopy = context.ChangeTracker.Entries()
+            .Where(e => e.State == EntityState.Added ||
+                        e.State == EntityState.Modified ||
+                        e.State == EntityState.Deleted)
+            .ToList();
+
+        var exercise = await context.Exercises
+            .Include(e => e.Instructions)
+            .Where(e => e.Id == id)
+            .FirstOrDefaultAsync();
+
+        if (exercise is null) return null;
+
+        if (populateInstructions == false)
+        {
+            exercise.Instructions = new List<Instruction>();
+        }
+
+        exercise.Instructions = exercise.Instructions?
+            .OrderBy(instr => instr.StepNumber).ToList();
+
+        changedEntriesCopy = context.ChangeTracker.Entries()
+            .Where(e => e.State == EntityState.Added ||
+                        e.State == EntityState.Modified ||
+                        e.State == EntityState.Deleted)
+            .ToList();
 
         return exercise;
+    }
+
+    public async Task<bool> SaveChangesAsync()
+    {
+        var saved = (await context.SaveChangesAsync() >= 0);
+
+        if (saved) context.ChangeTracker.Clear();
+
+        return saved;
     }
 
     public bool Delete(Exercise exercise)
@@ -38,73 +97,17 @@ public class InMemExerciseData : IExerciseData
         return true;
     }
 
-    public List<Exercise> GetAll()
-    {
-        return GetAll(false);
-    }
-
-    public List<Exercise> GetAll(bool populateInstructions = false)
-    {
-        var exercises = populateInstructions
-            ? context.Exercises
-                .OrderBy(exer => exer.Name)
-                .Include(exer => exer.Instructions)
-                .ToList()
-            : context.Exercises
-                .OrderBy(exer => exer.Name)
-                .ToList();
-
-        exercises.ForEach(exer =>
-        {
-            exer.Instructions = exer.Instructions?
-                .OrderBy(instr => instr.StepNumber).ToList();
-        });
-
-        return exercises;
-    }
-
-    public Exercise? GetExercise(int id)
-    {
-        return GetExercise(id, true);
-    }
-
-    public Exercise? GetExercise(int id, bool populateExercise = true)
-    {
-        var exercise = context.Exercises
-            .Include(e => e.Instructions)
-            .FirstOrDefault(e => e.Id == id);
-
-        if (exercise is null) return null;
-
-        if (populateExercise == false)
-        {
-            exercise.Instructions = new List<Instruction>();
-        }
-
-        exercise.Instructions = exercise.Instructions?
-            .OrderBy(instr => instr.StepNumber).ToList();
-
-        return exercise;
-    }
-
-    public bool Update(Exercise exercise)
+    public void UpdateExercise(Exercise exercise)
     {
         MarkEntityModified(exercise);
-
-        UpdateInstructions(exercise);
-
-        context.SaveChanges();
-
-        return true;
     }
 
-    private void UpdateInstructions(Exercise exercise)
+    public void UpdateInstructions(List<Instruction>? updatedInstructions, Exercise exercise)
     {
-        if (exercise.Instructions is null) return;
-
-        RemoveDeletedInstructions(exercise);
-        IndexInstructions(exercise.Instructions);
-        SaveInstructions(exercise.Instructions);
+        if (updatedInstructions is null) return;
+        RemoveDeletedInstructions(updatedInstructions, exercise);
+        IndexInstructions(updatedInstructions);
+        SaveInstructions(updatedInstructions);
     }
 
     private static void IndexInstructions(List<Instruction> instructions)
@@ -136,24 +139,36 @@ public class InMemExerciseData : IExerciseData
         }
     }
 
-    private void RemoveDeletedInstructions(Exercise exercise)
+    private void RemoveDeletedInstructions(List<Instruction> updatedInstructions, Exercise exercise)
     {
-        if (exercise.Instructions is null) return;
+        if (updatedInstructions is null) return;
 
         // Get the instruction Ids saved in database
         var instructionsInDb = context.Instructions
             .Where(instr => instr.Exercise.Id == exercise.Id)
-            .AsNoTracking()
             .ToList();
 
         // Delete instructions with Ids only in database
         instructionsInDb?
-            .Except(exercise.Instructions, new InstructionIDComparer())
+            .Except(updatedInstructions, new InstructionIDComparer())
             .ToList()
             .ForEach(instr =>
             {
                 MarkEntityDeleted(instr);
             });
+    }
+
+    public List<EntityEntry> CheckedChangedEntities()
+    {
+        var changedEntriesCopy = context.ChangeTracker.Entries()
+            .Where(e => e.State == EntityState.Added ||
+                        e.State == EntityState.Modified ||
+                        e.State == EntityState.Detached ||
+                        e.State == EntityState.Unchanged ||
+                        e.State == EntityState.Deleted)
+            .ToList();
+
+        return changedEntriesCopy;
     }
 
     private void MarkEntityModified<T>(T entity)
@@ -172,7 +187,7 @@ public class InMemExerciseData : IExerciseData
         entry.State = EntityState.Deleted;
     }
 
-    public static void SeedData(IExerciseData context)
+    public async static Task SeedData(IExerciseData context)
     {
         var benchPress = new Exercise()
         {
@@ -336,7 +351,11 @@ public class InMemExerciseData : IExerciseData
         });
 
         // Add them all to the context for now
-        exercises.ForEach(exercise => context.Add(exercise));
+        exercises.ForEach(exercise => context.AddExercise(exercise));
+
+        await context.SaveChangesAsync();
+
+
     }
 
     // TODO Find better location for comparer when/after implementing sql
