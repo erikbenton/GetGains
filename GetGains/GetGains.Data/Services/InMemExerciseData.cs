@@ -18,12 +18,6 @@ public class InMemExerciseData : IExerciseData
 
     public void AddExercise(Exercise exercise)
     {
-        int stepNumber = 1;
-        exercise.Instructions?.ForEach(instruction =>
-        {
-            instruction.StepNumber = stepNumber++;
-        });
-
         context.Exercises.Add(exercise);
     }
 
@@ -49,12 +43,6 @@ public class InMemExerciseData : IExerciseData
 
     public async Task<Exercise?> GetExerciseAsync(int id, bool populateInstructions)
     {
-        var changedEntriesCopy = context.ChangeTracker.Entries()
-            .Where(e => e.State == EntityState.Added ||
-                        e.State == EntityState.Modified ||
-                        e.State == EntityState.Deleted)
-            .ToList();
-
         var exercise = await context.Exercises
             .Include(e => e.Instructions)
             .Where(e => e.Id == id)
@@ -69,12 +57,6 @@ public class InMemExerciseData : IExerciseData
 
         exercise.Instructions = exercise.Instructions?
             .OrderBy(instr => instr.StepNumber).ToList();
-
-        changedEntriesCopy = context.ChangeTracker.Entries()
-            .Where(e => e.State == EntityState.Added ||
-                        e.State == EntityState.Modified ||
-                        e.State == EntityState.Deleted)
-            .ToList();
 
         return exercise;
     }
@@ -92,70 +74,7 @@ public class InMemExerciseData : IExerciseData
     {
         context.Exercises.Remove(exercise);
 
-        context.SaveChanges();
-
         return true;
-    }
-
-    public void UpdateExercise(Exercise exercise)
-    {
-        MarkEntityModified(exercise);
-    }
-
-    public void UpdateInstructions(List<Instruction>? updatedInstructions, Exercise exercise)
-    {
-        if (updatedInstructions is null) return;
-        RemoveDeletedInstructions(updatedInstructions, exercise);
-        IndexInstructions(updatedInstructions);
-        SaveInstructions(updatedInstructions);
-    }
-
-    private static void IndexInstructions(List<Instruction> instructions)
-    {
-        int stepNumber = 1;
-        instructions.ForEach(instr =>
-        {
-            instr.StepNumber = stepNumber++;
-        });
-    }
-
-    private void SaveInstructions(List<Instruction> instructions)
-    {
-        instructions.ForEach(instr =>
-        {
-            SaveInstruction(instr);
-        });
-    }
-
-    private void SaveInstruction(Instruction instruction)
-    {
-        if (instruction.IsNewEntry)
-        {
-            context.Instructions.Add(instruction);
-        }
-        else
-        {
-            MarkEntityModified(instruction);
-        }
-    }
-
-    private void RemoveDeletedInstructions(List<Instruction> updatedInstructions, Exercise exercise)
-    {
-        if (updatedInstructions is null) return;
-
-        // Get the instruction Ids saved in database
-        var instructionsInDb = context.Instructions
-            .Where(instr => instr.Exercise.Id == exercise.Id)
-            .ToList();
-
-        // Delete instructions with Ids only in database
-        instructionsInDb?
-            .Except(updatedInstructions, new InstructionIDComparer())
-            .ToList()
-            .ForEach(instr =>
-            {
-                MarkEntityDeleted(instr);
-            });
     }
 
     public List<EntityEntry> CheckedChangedEntities()
@@ -169,22 +88,6 @@ public class InMemExerciseData : IExerciseData
             .ToList();
 
         return changedEntriesCopy;
-    }
-
-    private void MarkEntityModified<T>(T entity)
-    {
-        if (entity is null) return;
-
-        var entry = context.Entry(entity);
-        entry.State = EntityState.Modified;
-    }
-
-    private void MarkEntityDeleted<T>(T entity)
-    {
-        if (entity is null) return;
-
-        var entry = context.Entry(entity);
-        entry.State = EntityState.Deleted;
     }
 
     public async static Task SeedData(IExerciseData context)
@@ -356,22 +259,6 @@ public class InMemExerciseData : IExerciseData
         await context.SaveChangesAsync();
 
 
-    }
-
-    // TODO Find better location for comparer when/after implementing sql
-    private class InstructionIDComparer : EqualityComparer<Instruction>
-    {
-        public override bool Equals(Instruction? x, Instruction? y)
-        {
-            if (x == null || y == null) return false;
-
-            return x.Id == y.Id;
-        }
-
-        public override int GetHashCode([DisallowNull] Instruction obj)
-        {
-            return obj.Id.GetHashCode();
-        }
     }
 }
 

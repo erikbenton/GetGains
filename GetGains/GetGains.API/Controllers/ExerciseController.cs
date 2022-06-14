@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GetGains.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("exercises")]
 public class ExerciseController : ControllerBase
 {
     private readonly IExerciseData exerciseContext;
@@ -18,9 +18,11 @@ public class ExerciseController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll(bool populateInstructions = false)
+    public async Task<ActionResult<IEnumerable<ExerciseDto>>> GetAllExercises(
+        bool populateInstructions = false)
     {
-        var exercises = await exerciseContext.GetExercisesAsync(populateInstructions);
+        var exercises = 
+            await exerciseContext.GetExercisesAsync(populateInstructions);
 
         var exerciseData = exercises.Select(exer =>
             ExerciseMapper.Map(exer, populateInstructions));
@@ -29,7 +31,9 @@ public class ExerciseController : ControllerBase
     }
 
     [HttpGet("{id:int}", Name = "GetExercise")]
-    public async Task<IActionResult> GetExercise(int id, bool populateInstructions = true)
+    public async Task<ActionResult<ExerciseDto>> GetExercise(
+        int id,
+        bool populateInstructions = true)
     {
         var exercise = await exerciseContext.GetExerciseAsync(id, populateInstructions);
 
@@ -83,23 +87,27 @@ public class ExerciseController : ControllerBase
     }
 
     [HttpDelete]
-    public IActionResult DeleteExercise([FromBody] ExerciseDto deletedModel)
+    public async Task<ActionResult> DeleteExercise([FromBody] ExerciseDto deletedModel)
     {
         var deletedExercise = ExerciseMapper.Map(deletedModel);
 
         var isDeleted = exerciseContext.Delete(deletedExercise);
 
+        await exerciseContext.SaveChangesAsync();
+
         return isDeleted ? NoContent() : Conflict("Unable to delete exercise");
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteExerciseById(int id)
+    public async Task<ActionResult> DeleteExerciseById(int id)
     {
         var exercise = await exerciseContext.GetExerciseAsync(id, true);
 
         if (exercise is null) return NotFound();
 
         var isDeleted = exerciseContext.Delete(exercise);
+
+        await exerciseContext.SaveChangesAsync();
 
         return isDeleted ? NoContent() : Conflict("Unable to delete exercise");
     }

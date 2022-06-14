@@ -50,4 +50,19 @@ public class InstructionMapper
             return Map(model, referenceExercise);
         }).ToList();
     }
+
+    //private class InstructionIDComparer : EqualityComparer<Instruction>
+    //{
+    //    public override bool Equals(Instruction? x, Instruction? y)
+    //    {
+    //        if (x == null || y == null) return false;
+
+    //        return x.Id == y.Id;
+    //    }
+
+    //    public override int GetHashCode([DisallowNull] Instruction obj)
+    //    {
+    //        return obj.Id.GetHashCode();
+    //    }
+    //}
 }
