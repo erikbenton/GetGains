@@ -25,7 +25,8 @@ public class Exercise
     [Display(Name = "Media URL")]
     public string? MediaUrl { get; set; }
 
-    public List<Instruction>? Instructions { get; set; }
+    [Required]
+    public List<Instruction> Instructions { get; set; } = new List<Instruction>();
 
     public string? Author { get; set; }
 

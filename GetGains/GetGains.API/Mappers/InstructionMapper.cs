@@ -22,10 +22,9 @@ public class InstructionMapper
         return new InstructionDto(instruction);
     }
 
-    public static List<Instruction>? Map(List<InstructionDto>? instructions, Exercise referenceExercise)
+    public static List<Instruction> Map(
+        List<InstructionDto> instructions, Exercise referenceExercise)
     {
-        if (instructions is null) return null;
-
         int stepNumber = 1;
         return instructions.Select(instruction =>
         {
@@ -66,7 +65,8 @@ public class InstructionMapper
     /// <param name="modelInstructions">Instructions belonging to the updated model.</param>
     /// <returns>Tuple of lists of Ids to Delete and to Keep.</returns>
     private static (List<int>, List<int>) BisectInstructionIds(
-        List<Instruction> exerciseInstructions, List<InstructionDto> modelInstructions)
+        List<Instruction> exerciseInstructions,
+        List<InstructionDto> modelInstructions)
     {
         var savedInstructionIds = exerciseInstructions
             .Select(instr => instr.Id).ToList();
@@ -92,18 +92,23 @@ public class InstructionMapper
         });
     }
 
-    private static void AddNewInstructions(List<InstructionDto> modelInstructions, Exercise exercise)
+    private static void AddNewInstructions(
+        List<InstructionDto> modelInstructions,
+        Exercise exercise)
     {
         modelInstructions.ForEach(instr =>
         {
             if (instr.Id is null)
             {
-                exercise.Instructions?.Add(Map(instr, exercise));
+                exercise.Instructions.Add(Map(instr, exercise));
             }
         });
     }
 
-    private static void UpdateChangedInstructions(List<InstructionDto> modelInstructions, List<Instruction> exerciseInstructions, List<int> instructionIdsToKeep)
+    private static void UpdateChangedInstructions(
+        List<InstructionDto> modelInstructions,
+        List<Instruction> exerciseInstructions,
+        List<int> instructionIdsToKeep)
     {
         exerciseInstructions.ForEach(instr =>
         {
@@ -115,7 +120,9 @@ public class InstructionMapper
         });
     }
 
-    private static void RemoveDeletedInstructions(List<Instruction> exerciseInstructions, List<int> instructionIdsToDelete)
+    private static void RemoveDeletedInstructions(
+        List<Instruction> exerciseInstructions,
+        List<int> instructionIdsToDelete)
     {
         var instructionsToDelete = new List<Instruction>();
 

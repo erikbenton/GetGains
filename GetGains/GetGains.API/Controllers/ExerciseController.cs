@@ -46,7 +46,7 @@ public class ExerciseController : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> CreateExercise(
-        [FromBody] ExerciseDto newModel,
+        [FromBody] ExerciseForCreationDto newModel,
         bool includeData = false)
     {
         var newExercise = ExerciseMapper.Map(newModel);
@@ -66,7 +66,7 @@ public class ExerciseController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateExercise(
         int id,
-        [FromBody] ExerciseDto updatedModel,
+        [FromBody] ExerciseForUpdatingDto updatedModel,
         [FromQuery] bool includeData = false)
     {
         var exerciseInDb = await exerciseContext.GetExerciseAsync(id, true);
@@ -87,7 +87,7 @@ public class ExerciseController : ControllerBase
     }
 
     [HttpDelete]
-    public async Task<ActionResult> DeleteExercise([FromBody] ExerciseDto deletedModel)
+    public async Task<ActionResult> DeleteExercise([FromBody] ExerciseForDeletionDto deletedModel)
     {
         var deletedExercise = ExerciseMapper.Map(deletedModel);
 

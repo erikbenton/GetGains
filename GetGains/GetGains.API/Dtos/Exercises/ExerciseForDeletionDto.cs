@@ -6,8 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace GetGains.API.Dtos.Exercises;
 
-public class ExerciseDto
+public class ExerciseForDeletionDto
 {
+    [Required]
     public int Id { get; set; }
 
     [Required]
@@ -29,15 +30,14 @@ public class ExerciseDto
     public string? Author { get; set; }
 
     [JsonConstructor]
-    public ExerciseDto(int id, string name, string category, string bodyPart)
+    public ExerciseForDeletionDto(string name, string category, string bodyPart)
     {
-        Id = id;
         Name = name;
         Category = category;
         BodyPart = bodyPart;
     }
 
-    public ExerciseDto(Exercise exercise, bool populateInstructions = false)
+    public ExerciseForDeletionDto(Exercise exercise, bool populateInstructions = false)
     {
         Id = exercise.Id;
         Name = exercise.Name;

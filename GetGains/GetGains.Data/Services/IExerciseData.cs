@@ -13,9 +13,5 @@ public interface IExerciseData
 
     Task<Exercise?> GetExerciseAsync(int id, bool populateInstructions);
 
-    //void UpdateExercise(Exercise exercise);
-
-    //void UpdateInstructions(List<Instruction>? updatedInstruction, Exercise exercise);
-
     Task<bool> SaveChangesAsync();
 }

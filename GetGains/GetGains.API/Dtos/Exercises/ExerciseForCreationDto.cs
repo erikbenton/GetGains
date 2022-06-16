@@ -6,10 +6,8 @@ using System.Text.Json.Serialization;
 
 namespace GetGains.API.Dtos.Exercises;
 
-public class ExerciseDto
+public class ExerciseForCreationDto
 {
-    public int Id { get; set; }
-
     [Required]
     public string Name { get; set; }
 
@@ -24,22 +22,22 @@ public class ExerciseDto
 
     public string? MediaUrl { get; set; }
 
-    public List<InstructionDto>? Instructions { get; set; }
+    [Required]
+    public List<InstructionDto> Instructions { get; set; }
 
     public string? Author { get; set; }
 
     [JsonConstructor]
-    public ExerciseDto(int id, string name, string category, string bodyPart)
+    public ExerciseForCreationDto(string name, string category, string bodyPart, List<InstructionDto> instructions)
     {
-        Id = id;
         Name = name;
         Category = category;
         BodyPart = bodyPart;
+        Instructions = instructions;
     }
 
-    public ExerciseDto(Exercise exercise, bool populateInstructions = false)
+    public ExerciseForCreationDto(Exercise exercise, bool populateInstructions = false)
     {
-        Id = exercise.Id;
         Name = exercise.Name;
         Category = exercise.Category.GetLabel();
         BodyPart = exercise.BodyPart.GetLabel();
@@ -47,12 +45,11 @@ public class ExerciseDto
         MediaUrl = exercise.MediaUrl;
         Author = exercise.Author;
 
-        if (populateInstructions)
-        {
-            Instructions = exercise.Instructions
+        Instructions = populateInstructions
+            ? exercise.Instructions
                 .Select(
                     instruction => new InstructionDto(instruction))
-                .ToList();
-        }
+                .ToList()
+            : new List<InstructionDto>();
     }
 }

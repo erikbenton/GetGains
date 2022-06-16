@@ -26,17 +26,20 @@ public class InMemExerciseData : IExerciseData
         var exercises = populateInstructions
             ? await context.Exercises
                 .OrderBy(exer => exer.Name)
-                .Include(exer => exer.Instructions)
+                .Include(exer => exer.Instructions.OrderBy(instr => instr.StepNumber))
                 .ToListAsync()
             : await context.Exercises
                 .OrderBy(exer => exer.Name)
                 .ToListAsync();
 
-        exercises.ForEach(exer =>
+        if (populateInstructions)
         {
-            exer.Instructions = exer.Instructions?
-                .OrderBy(instr => instr.StepNumber).ToList();
-        });
+            exercises.ForEach(exer =>
+            {
+                exer.Instructions = exer.Instructions
+                    .OrderBy(instr => instr.StepNumber).ToList();
+            });
+        }
 
         return exercises;
     }
@@ -53,7 +56,7 @@ public class InMemExerciseData : IExerciseData
 
         if (exercise is null) return null;
 
-        exercise.Instructions = exercise.Instructions?
+        exercise.Instructions = exercise.Instructions
             .OrderBy(instr => instr.StepNumber).ToList();
 
         return exercise;
@@ -96,7 +99,6 @@ public class InMemExerciseData : IExerciseData
             BodyPart = BodyPart.Chest,
             Category = ExerciseCategory.Barbell,
             Description = "Press the bar up from your chest",
-            Instructions = null,
             MediaUrl = "https://images.unsplash.com/photo-1534368959876-26bf04f2c947",
             Author = "Erik Benton"
         };
@@ -106,7 +108,6 @@ public class InMemExerciseData : IExerciseData
             BodyPart = BodyPart.Legs,
             Category = ExerciseCategory.Barbell,
             Description = "Stand up with the barbell over your shoulders",
-            Instructions = null,
             MediaUrl = "https://images.unsplash.com/photo-1596357395217-80de13130e92",
             Author = "Kyle McNurmann"
         };
@@ -116,7 +117,6 @@ public class InMemExerciseData : IExerciseData
             BodyPart = BodyPart.UpperBack,
             Category = ExerciseCategory.Bodyweight,
             Description = "Pull yourself up over the bar",
-            Instructions = null,
             MediaUrl = "https://images.unsplash.com/photo-1597347316205-36f6c451902a",
             Author = "Alexa Stils"
         };
@@ -126,7 +126,6 @@ public class InMemExerciseData : IExerciseData
             BodyPart = BodyPart.Shoulders,
             Category = ExerciseCategory.Barbell,
             Description = "Press the bar up over your head",
-            Instructions = null,
             MediaUrl = "https://images.unsplash.com/photo-1532029837206-abbe2b7620e3",
             Author = "Jeff Lovely"
         };
@@ -136,7 +135,6 @@ public class InMemExerciseData : IExerciseData
             BodyPart = BodyPart.Biceps,
             Category = ExerciseCategory.Dumbbell,
             Description = "Curl the dumbbell up from your waist to your shoulder",
-            Instructions = null,
             Author = "Mike Vincent"
         };
         var indoorBiking = new Exercise()
@@ -145,7 +143,6 @@ public class InMemExerciseData : IExerciseData
             BodyPart = BodyPart.Legs,
             Category = ExerciseCategory.IndoorCardio,
             Description = "Bike on a bike trainer",
-            Instructions = null,
             Author = "Sarah Bennet"
         };
         var weightedCrunch = new Exercise()
@@ -154,7 +151,6 @@ public class InMemExerciseData : IExerciseData
             BodyPart = BodyPart.Core,
             Category = ExerciseCategory.Dumbbell,
             Description = "Crunches with heavy dumbbell or plate",
-            Instructions = null,
             Author = "Josh Sylar"
         };
         var bentOverRows = new Exercise()
@@ -163,7 +159,6 @@ public class InMemExerciseData : IExerciseData
             BodyPart = BodyPart.UpperBack,
             Category = ExerciseCategory.Barbell,
             Description = "Bend over and row the barbell",
-            Instructions = null,
             Author = "Nathan Trant"
         };
         var lateralRaises = new Exercise()
@@ -172,7 +167,6 @@ public class InMemExerciseData : IExerciseData
             BodyPart = BodyPart.Shoulders,
             Category = ExerciseCategory.Dumbbell,
             Description = "Raise fully extended arms with dumbbells in them",
-            Instructions = null,
             Author = "Tasha Heffle"
         };
         var calfRaises = new Exercise()
@@ -181,7 +175,6 @@ public class InMemExerciseData : IExerciseData
             BodyPart = BodyPart.Calves,
             Category = ExerciseCategory.Barbell,
             Description = "Hold barbell in hands while standing on tippy-toes",
-            Instructions = null,
             Author = "Becky Yeung"
         };
         var benchPressDB = new Exercise()
@@ -190,7 +183,6 @@ public class InMemExerciseData : IExerciseData
             BodyPart = BodyPart.Chest,
             Category = ExerciseCategory.Dumbbell,
             Description = "Bench press with dumbbells",
-            Instructions = null,
             Author = "Charles Orbeiter"
         };
         var arnoldPress = new Exercise()
@@ -198,16 +190,14 @@ public class InMemExerciseData : IExerciseData
             Name = "Arnold Press",
             BodyPart = BodyPart.Shoulders,
             Category = ExerciseCategory.Dumbbell,
-            Description = "Dumbbell shoulder press with full shoulder rotation",
-            Instructions = null,
+            Description = "Dumbbell shoulder press with full shoulder rotation"
         };
         var dip = new Exercise()
         {
             Name = "Dip",
             BodyPart = BodyPart.Triceps,
             Category = ExerciseCategory.Bodyweight,
-            Description = "Hang so that you can slowly lower/dip your body using your arms/triceps",
-            Instructions = null,
+            Description = "Hang so that you can slowly lower/dip your body using your arms/triceps"
         };
         var exercises = new List<Exercise>()
         {

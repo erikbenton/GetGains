@@ -9,11 +9,11 @@ namespace GetGains.API.Mappers;
 
 public class ExerciseMapper
 {
-    public static Exercise Map(ExerciseDto model)
+    public static Exercise Map(ExerciseForCreationDto model)
     {
         Exercise exercise = new()
         {
-            Id = model.Id == null ? 0 : model.Id.Value,
+            Id = 0,
             Name = model.Name,
             BodyPart = model.BodyPart.GetBodyPart(),
             Category = model.Category.GetCategory(),
@@ -22,10 +22,33 @@ public class ExerciseMapper
             Author = model.Author,
         };
 
-        exercise.Instructions = model.Instructions?
-            .Select(
-                instructionModel => InstructionMapper.Map(instructionModel, exercise))
+        exercise.Instructions = model.Instructions
+            .Select(instructionModel =>
+                InstructionMapper.Map(instructionModel, exercise))
             .ToList();
+
+        return exercise;
+    }
+
+    public static Exercise Map(ExerciseForDeletionDto model)
+    {
+        Exercise exercise = new()
+        {
+            Id = model.Id,
+            Name = model.Name,
+            BodyPart = model.BodyPart.GetBodyPart(),
+            Category = model.Category.GetCategory(),
+            Description = model.Description,
+            MediaUrl = model.MediaUrl,
+            Author = model.Author,
+        };
+
+        exercise.Instructions = model.Instructions == null
+            ? new List<Instruction>()
+            : model.Instructions
+                .Select(instructionModel =>
+                    InstructionMapper.Map(instructionModel, exercise))
+                .ToList();
 
         return exercise;
     }
@@ -35,7 +58,7 @@ public class ExerciseMapper
         return new ExerciseDto(exercise, populateInstructions);
     }
 
-    public static void MapFromTo(ExerciseDto model, Exercise exercise)
+    public static void MapFromTo(ExerciseForUpdatingDto model, Exercise exercise)
     {
         exercise.Name = model.Name;
         exercise.BodyPart = model.BodyPart.GetBodyPart();
@@ -43,8 +66,6 @@ public class ExerciseMapper
         exercise.Description = model.Description;
         exercise.MediaUrl = model.MediaUrl;
         exercise.Author = model.Author;
-
-        if (exercise.Instructions is null || model.Instructions is null) return;
 
         InstructionMapper.MapFromTo(model.Instructions, exercise.Instructions, exercise);
     }
