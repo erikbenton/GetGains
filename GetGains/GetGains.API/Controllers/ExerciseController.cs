@@ -67,7 +67,7 @@ public class ExerciseController : ControllerBase
     public async Task<IActionResult> UpdateExercise(
         int id,
         [FromBody] ExerciseDto updatedModel,
-        bool includeData = false)
+        [FromQuery] bool includeData = false)
     {
         var exerciseInDb = await exerciseContext.GetExerciseAsync(id, true);
 

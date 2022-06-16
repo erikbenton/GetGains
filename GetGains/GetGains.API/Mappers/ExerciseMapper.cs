@@ -1,4 +1,5 @@
 ﻿using GetGains.API.Dtos.Exercises;
+using GetGains.API.Dtos.Instructions;
 using GetGains.Core.Extensions;
 using GetGains.Core.Models.Exercises;
 using GetGains.Core.Models.Instructions;
@@ -43,55 +44,8 @@ public class ExerciseMapper
         exercise.MediaUrl = model.MediaUrl;
         exercise.Author = model.Author;
 
-        if (model.Instructions is null) return;
+        if (exercise.Instructions is null || model.Instructions is null) return;
 
-        var savedInstructionIds = exercise.Instructions?
-            .Select(instr => instr.Id).ToList();
-
-        var modelInstructionIds = model.Instructions
-            .Select(instr =>
-                instr.Id.HasValue ? instr.Id.Value : 0)
-            .ToList();
-
-        var instructionIdsToDelete = savedInstructionIds?
-            .Except(modelInstructionIds)
-            .ToList();
-
-        var instructionsToDelete = new List<Instruction>();
-
-        if (instructionIdsToDelete is not null)
-        {
-            exercise.Instructions?.ForEach(instr =>
-            {
-                if (instructionIdsToDelete.Contains(instr.Id))
-                {
-                    instructionsToDelete.Add(instr);
-                }
-                if (modelInstructionIds.Contains(instr.Id))
-                {
-                    var modelInstr = model.Instructions.First(i => i.Id == instr.Id);
-                    InstructionMapper.MapFromTo(modelInstr, instr);
-                }
-            });
-        }
-
-        instructionsToDelete.ForEach(instr =>
-        {
-            exercise.Instructions?.Remove(instr);
-        });
-
-        model.Instructions.ForEach(instr =>
-        {
-            if (instr.Id is null)
-            {
-                exercise.Instructions?.Add(InstructionMapper.Map(instr, exercise));
-            }
-        });
-
-        var stepNumber = 1;
-        exercise.Instructions?.ForEach(instr =>
-        {
-            instr.StepNumber = stepNumber++;
-        });
+        InstructionMapper.MapFromTo(model.Instructions, exercise.Instructions, exercise);
     }
 }

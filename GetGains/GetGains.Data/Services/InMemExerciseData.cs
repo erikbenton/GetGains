@@ -43,17 +43,15 @@ public class InMemExerciseData : IExerciseData
 
     public async Task<Exercise?> GetExerciseAsync(int id, bool populateInstructions)
     {
-        var exercise = await context.Exercises
-            .Include(e => e.Instructions)
-            .Where(e => e.Id == id)
-            .FirstOrDefaultAsync();
+        IQueryable<Exercise> query = populateInstructions
+            ? context.Exercises
+                .Include(e => e.Instructions)
+            : context.Exercises;
+
+        var exercise = await query
+            .Where(e => e.Id == id).FirstOrDefaultAsync();
 
         if (exercise is null) return null;
-
-        if (populateInstructions == false)
-        {
-            exercise.Instructions = new List<Instruction>();
-        }
 
         exercise.Instructions = exercise.Instructions?
             .OrderBy(instr => instr.StepNumber).ToList();
