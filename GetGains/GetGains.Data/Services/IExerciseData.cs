@@ -7,7 +7,7 @@ public interface IExerciseData
 {
     void AddExercise(Exercise exercise);
 
-    bool Delete(Exercise exercise);
+    void Delete(Exercise exercise);
 
     Task<List<Exercise>> GetExercisesAsync(bool populateInstructions);
 

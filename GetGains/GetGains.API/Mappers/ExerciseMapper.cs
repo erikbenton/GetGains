@@ -1,9 +1,6 @@
 ﻿using GetGains.API.Dtos.Exercises;
-using GetGains.API.Dtos.Instructions;
 using GetGains.Core.Extensions;
 using GetGains.Core.Models.Exercises;
-using GetGains.Core.Models.Instructions;
-using GetGains.Data.Services;
 
 namespace GetGains.API.Mappers;
 
@@ -26,29 +23,6 @@ public class ExerciseMapper
             .Select(instructionModel =>
                 InstructionMapper.Map(instructionModel, exercise))
             .ToList();
-
-        return exercise;
-    }
-
-    public static Exercise Map(ExerciseForDeletionDto model)
-    {
-        Exercise exercise = new()
-        {
-            Id = model.Id,
-            Name = model.Name,
-            BodyPart = model.BodyPart.GetBodyPart(),
-            Category = model.Category.GetCategory(),
-            Description = model.Description,
-            MediaUrl = model.MediaUrl,
-            Author = model.Author,
-        };
-
-        exercise.Instructions = model.Instructions == null
-            ? new List<Instruction>()
-            : model.Instructions
-                .Select(instructionModel =>
-                    InstructionMapper.Map(instructionModel, exercise))
-                .ToList();
 
         return exercise;
     }

@@ -8,6 +8,7 @@ namespace GetGains.API.Dtos.Exercises;
 
 public class ExerciseDto
 {
+    [Required]
     public int Id { get; set; }
 
     [Required]

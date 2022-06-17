@@ -21,8 +21,7 @@ public class ExerciseController : ControllerBase
     public async Task<ActionResult<IEnumerable<ExerciseDto>>> GetAllExercises(
         bool populateInstructions = false)
     {
-        var exercises = 
-            await exerciseContext.GetExercisesAsync(populateInstructions);
+        var exercises = await exerciseContext.GetExercisesAsync(populateInstructions);
 
         var exerciseData = exercises.Select(exer =>
             ExerciseMapper.Map(exer, populateInstructions));
@@ -86,18 +85,6 @@ public class ExerciseController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete]
-    public async Task<ActionResult> DeleteExercise([FromBody] ExerciseForDeletionDto deletedModel)
-    {
-        var deletedExercise = ExerciseMapper.Map(deletedModel);
-
-        var isDeleted = exerciseContext.Delete(deletedExercise);
-
-        await exerciseContext.SaveChangesAsync();
-
-        return isDeleted ? NoContent() : Conflict("Unable to delete exercise");
-    }
-
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteExerciseById(int id)
     {
@@ -105,9 +92,9 @@ public class ExerciseController : ControllerBase
 
         if (exercise is null) return NotFound();
 
-        var isDeleted = exerciseContext.Delete(exercise);
+        exerciseContext.Delete(exercise);
 
-        await exerciseContext.SaveChangesAsync();
+        var isDeleted = await exerciseContext.SaveChangesAsync();
 
         return isDeleted ? NoContent() : Conflict("Unable to delete exercise");
     }

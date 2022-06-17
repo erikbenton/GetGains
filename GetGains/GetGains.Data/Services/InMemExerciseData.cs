@@ -21,43 +21,36 @@ public class InMemExerciseData : IExerciseData
         context.Exercises.Add(exercise);
     }
 
-    public async Task<List<Exercise>> GetExercisesAsync(bool populateInstructions)
+    public async Task<List<Exercise>> GetExercisesAsync(bool includeInstructions)
     {
-        var exercises = populateInstructions
-            ? await context.Exercises
-                .OrderBy(exer => exer.Name)
-                .Include(exer => exer.Instructions.OrderBy(instr => instr.StepNumber))
-                .ToListAsync()
-            : await context.Exercises
-                .OrderBy(exer => exer.Name)
-                .ToListAsync();
+        IQueryable<Exercise> query = context.Exercises.OrderBy(exer => exer.Name);
 
-        if (populateInstructions)
+        if (includeInstructions)
         {
-            exercises.ForEach(exer =>
-            {
-                exer.Instructions = exer.Instructions
-                    .OrderBy(instr => instr.StepNumber).ToList();
-            });
+            query.Include(exer =>
+                exer.Instructions.OrderBy(instr => instr.StepNumber));
         }
+
+        var exercises = await query.ToListAsync();
 
         return exercises;
     }
 
-    public async Task<Exercise?> GetExerciseAsync(int id, bool populateInstructions)
+    public async Task<Exercise?> GetExerciseAsync(int id, bool includeInstructions)
     {
-        IQueryable<Exercise> query = populateInstructions
-            ? context.Exercises
-                .Include(e => e.Instructions)
+        IQueryable<Exercise> query = includeInstructions
+            ? context.Exercises.Include(e => e.Instructions)
             : context.Exercises;
 
         var exercise = await query
-            .Where(e => e.Id == id).FirstOrDefaultAsync();
+            .Where(e => e.Id == id)
+            .FirstOrDefaultAsync();
 
         if (exercise is null) return null;
 
         exercise.Instructions = exercise.Instructions
-            .OrderBy(instr => instr.StepNumber).ToList();
+            .OrderBy(instr => instr.StepNumber)
+            .ToList();
 
         return exercise;
     }
@@ -71,11 +64,9 @@ public class InMemExerciseData : IExerciseData
         return saved;
     }
 
-    public bool Delete(Exercise exercise)
+    public void Delete(Exercise exercise)
     {
         context.Exercises.Remove(exercise);
-
-        return true;
     }
 
     public List<EntityEntry> CheckedChangedEntities()
