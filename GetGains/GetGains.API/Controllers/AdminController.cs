@@ -1,4 +1,5 @@
 ﻿using GetGains.API.Dtos.Exercises;
+using GetGains.API.Dtos.Templates;
 using GetGains.API.Dtos.Workouts;
 using GetGains.API.Mappers;
 using GetGains.Data.Services;
@@ -10,13 +11,16 @@ namespace GetGains.API.Controllers;
 [ApiController]
 public class AdminController : ControllerBase
 {
+    private readonly ITemplateData templateContext;
     private readonly IWorkoutData workoutContext;
     private readonly IExerciseData exerciseContext;
 
     public AdminController(
+        ITemplateData templateContext,
         IWorkoutData workoutContext,
         IExerciseData exerciseContext)
     {
+        this.templateContext = templateContext;
         this.workoutContext = workoutContext;
         this.exerciseContext = exerciseContext;
     }
@@ -37,6 +41,25 @@ public class AdminController : ControllerBase
             .ToList();
 
         return Ok(exerciseData);
+    }
+
+    [HttpPost("seedTemplates")]
+    public async Task<IActionResult> SeedTemplates([FromBody] string? password)
+    {
+        if (password is null) return Unauthorized();
+
+        if (password != "admin") return Unauthorized();
+
+        templateContext.SeedData();
+
+        await templateContext.SaveChangesAsync();
+
+        var templates = await templateContext.GetTemplatesAsync(true);
+
+        var templateModels = templates
+            .Select(template => new TemplateSummaryDto(template)).ToList();
+
+        return Ok(templateModels);
     }
 
     [HttpPost("seedWorkouts")]

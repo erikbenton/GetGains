@@ -1,5 +1,6 @@
 ﻿using GetGains.Core.Models.Exercises;
 using GetGains.Core.Models.Instructions;
+using GetGains.Core.Models.Templates;
 using GetGains.Core.Models.Workouts;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,12 @@ public class GainsDbContext : DbContext
     public DbSet<WorkoutSetGroup> WorkoutSetGroups => Set<WorkoutSetGroup>();
 
     public DbSet<WorkoutSet> WorkoutSets => Set<WorkoutSet>();
+
+    public DbSet<Template> WorkoutTemplates => Set<Template>();
+
+    public DbSet<TemplateSetGroup> WorkoutSetGroupTemplates => Set<TemplateSetGroup>();
+
+    public DbSet<TemplateSet> WorkoutSetTemplates => Set<TemplateSet>();
 
     public DbSet<Exercise> Exercises => Set<Exercise>();
 

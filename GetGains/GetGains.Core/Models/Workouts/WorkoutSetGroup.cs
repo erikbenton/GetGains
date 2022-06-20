@@ -31,7 +31,7 @@ public class WorkoutSetGroup
     [Required]
     public int GroupNumber { get; set; }
 
-    public List<WorkoutSet>? Sets { get; set; }
+    public List<WorkoutSet> Sets { get; set; } = new List<WorkoutSet>();
 
     public WorkoutSetGroup()
     {

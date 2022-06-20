@@ -3,7 +3,6 @@ using GetGains.Core.Models.Exercises;
 using GetGains.Core.Models.Instructions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Diagnostics.CodeAnalysis;
 
 namespace GetGains.Data.Services;
 

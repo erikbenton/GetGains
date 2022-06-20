@@ -3,20 +3,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GetGains.Core.Models.Templates;
 
-public class WorkoutSetTemplate
+public class TemplateSet
 {
     [Required]
     public int Id { get; set; }
 
     [Required]
-    public WorkoutSetGroupTemplate WorkoutSetGroupTemplate
+    public TemplateSetGroup WorkoutSetGroupTemplate
     {
-        get => WorkoutSetGroup
+        get => _workoutSetGroupTemplate
             ?? throw new InvalidOperationException("Uninitialized property: " + nameof(WorkoutSetGroupTemplate));
-        set => WorkoutSetGroup = value;
+        set => _workoutSetGroupTemplate = value;
     }
 
-    private WorkoutSetGroupTemplate? _workoutSetGroupTemplate;
+    private TemplateSetGroup? _workoutSetGroupTemplate;
 
     [Required]
     public Exercise Exercise
@@ -43,14 +43,13 @@ public class WorkoutSetTemplate
 
     [MaxLength(255)]
     public string? Note { get; set; }
-    public WorkoutSetGroupTemplate? WorkoutSetGroup { get => _workoutSetGroupTemplate; set => _workoutSetGroupTemplate = value; }
 
-    public WorkoutSetTemplate()
+    public TemplateSet()
     {
 
     }
 
-    public WorkoutSetTemplate(WorkoutSetGroupTemplate workoutSetGroupTemplate)
+    public TemplateSet(TemplateSetGroup workoutSetGroupTemplate)
     {
         WorkoutSetGroupTemplate = workoutSetGroupTemplate;
         Exercise = workoutSetGroupTemplate.Exercise;

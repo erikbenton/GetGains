@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GetGains.Core.Models.Templates;
 
-public class WorkoutTemplate
+public class Template
 {
     [Required]
     public int Id { get; set; }
@@ -17,9 +17,9 @@ public class WorkoutTemplate
     [MaxLength(255)]
     public string? Description { get; set; }
 
-    public List<WorkoutSetGroupTemplate>? GroupTemplates { get; set; }
+    public List<TemplateSetGroup> GroupTemplates { get; set; } = new List<TemplateSetGroup>();
 
-    public WorkoutTemplate(
+    public Template(
         string name,
         ExerciseCategory category = ExerciseCategory.Other)
     {
