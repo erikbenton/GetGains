@@ -9,14 +9,16 @@ public class TemplateSet
     public int Id { get; set; }
 
     [Required]
-    public TemplateSetGroup WorkoutSetGroupTemplate
+    public TemplateSetGroup TemplateSetGroup
     {
-        get => _workoutSetGroupTemplate
-            ?? throw new InvalidOperationException("Uninitialized property: " + nameof(WorkoutSetGroupTemplate));
-        set => _workoutSetGroupTemplate = value;
+        get => _templateSetGroup
+            ?? throw new InvalidOperationException("Uninitialized property: " + nameof(TemplateSetGroup));
+        set => _templateSetGroup = value;
     }
 
-    private TemplateSetGroup? _workoutSetGroupTemplate;
+    private TemplateSetGroup? _templateSetGroup;
+
+    public int TemplateSetGroupId { get; set; }
 
     [Required]
     public Exercise Exercise
@@ -27,6 +29,8 @@ public class TemplateSet
     }
 
     private Exercise? _exercise;
+
+    public int ExerciseId { get; set; }
 
     [Required]
     public int SetNumber { get; set; }
@@ -49,9 +53,11 @@ public class TemplateSet
 
     }
 
-    public TemplateSet(TemplateSetGroup workoutSetGroupTemplate)
+    public TemplateSet(TemplateSetGroup templateSetGroup)
     {
-        WorkoutSetGroupTemplate = workoutSetGroupTemplate;
-        Exercise = workoutSetGroupTemplate.Exercise;
+        TemplateSetGroup = templateSetGroup;
+        TemplateSetGroupId = templateSetGroup.Id;
+        Exercise = templateSetGroup.Exercise;
+        ExerciseId = templateSetGroup.Exercise.Id;
     }
 }

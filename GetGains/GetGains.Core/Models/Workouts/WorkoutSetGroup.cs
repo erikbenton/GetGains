@@ -18,6 +18,8 @@ public class WorkoutSetGroup
 
     private Workout? _workout;
 
+    public int WorkoutId { get; set; }
+
     [Required]
     public Exercise Exercise
     {
@@ -27,6 +29,8 @@ public class WorkoutSetGroup
     }
 
     private Exercise? _exercise;
+
+    public int ExerciseId { get; set; }
 
     [Required]
     public int GroupNumber { get; set; }
@@ -41,7 +45,9 @@ public class WorkoutSetGroup
     public WorkoutSetGroup(Workout workout, Exercise exercise)
     {
         Workout = workout;
+        WorkoutId = workout.Id;
         Exercise = exercise;
+        ExerciseId = exercise.Id;
     }
 
 }

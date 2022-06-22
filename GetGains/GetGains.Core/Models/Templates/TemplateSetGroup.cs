@@ -18,6 +18,8 @@ public class TemplateSetGroup
 
     private Template? _template;
 
+    public int TemplateId { get; set; }
+
     [Required]
     public Exercise Exercise
     {
@@ -27,6 +29,8 @@ public class TemplateSetGroup
     }
 
     private Exercise? _exercise;
+
+    public int ExerciseId { get; set; }
 
     [Required]
     public int GroupNumber { get; set; }
@@ -38,9 +42,11 @@ public class TemplateSetGroup
 
     }
 
-    public TemplateSetGroup(Template workoutTemplate, Exercise exercise)
+    public TemplateSetGroup(Template template, Exercise exercise)
     {
-        Template = workoutTemplate;
+        Template = template;
+        TemplateId = template.Id;
         Exercise = exercise;
+        ExerciseId = exercise.Id;
     }
 }

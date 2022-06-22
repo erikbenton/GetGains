@@ -18,6 +18,8 @@ public class Instruction
 
     private Exercise? _exercise;
 
+    public int ExerciseId { get; set; }
+
     [Required]
     public int StepNumber { get; set; }
 
@@ -34,5 +36,6 @@ public class Instruction
     public Instruction(Exercise exercise)
     {
         Exercise = exercise;
+        ExerciseId = exercise.Id;
     }
 }
