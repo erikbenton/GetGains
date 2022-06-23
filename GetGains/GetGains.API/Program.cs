@@ -4,16 +4,14 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<GainsDbContext>(opt => opt.UseInMemoryDatabase(databaseName: "WorkoutDatabase"));
+//builder.Services.AddDbContext<GainsDbContext>(opt => opt.UseInMemoryDatabase(databaseName: "WorkoutDatabase"));
 
-//builder.Services.AddDbContext<GainsDbContext>(
-//    dbContextOptions => dbContextOptions.UseSqlServer(
-//        builder.Configuration.GetConnectionString("GetGainsDBContext"),
-//        optionsBuilder => 
-//            optionsBuilder.MigrationsAssembly("GetGains.API")));
+builder.Services.AddDbContext<GainsDbContext>(
+    dbContextOptions => dbContextOptions.UseSqlServer(
+        builder.Configuration.GetConnectionString("GetGainsDBContext")));
 
-builder.Services.AddScoped<IExerciseData, InMemExerciseData>();
-builder.Services.AddScoped<IWorkoutData, InMemWorkoutData>();
+builder.Services.AddScoped<IExerciseData, ExerciseData>();
+builder.Services.AddScoped<IWorkoutData, WorkoutData>();
 builder.Services.AddScoped<ITemplateData, TemplateData>();
 
 builder.Services.AddCors();

@@ -18,7 +18,7 @@ public class TemplatesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TemplateSummaryDto>>> GetTemplates()
     {
-        var templates = await templateContext.GetTemplatesAsync(true);
+        var templates = await templateContext.GetTemplatesAsync(false);
 
         var templateModels = templates
             .Select(template => new TemplateSummaryDto(template)).ToList();

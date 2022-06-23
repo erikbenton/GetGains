@@ -2,15 +2,14 @@
 using GetGains.Core.Models.Exercises;
 using GetGains.Core.Models.Instructions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace GetGains.Data.Services;
 
-public class InMemExerciseData : IExerciseData
+public class ExerciseData : IExerciseData
 {
     private readonly GainsDbContext context;
 
-    public InMemExerciseData(GainsDbContext context)
+    public ExerciseData(GainsDbContext context)
     {
         this.context = context;
     }
@@ -22,7 +21,20 @@ public class InMemExerciseData : IExerciseData
 
     public async Task<List<Exercise>> GetExercisesAsync(bool includeInstructions)
     {
-        IQueryable<Exercise> query = context.Exercises.OrderBy(exer => exer.Name);
+        IQueryable<Exercise> query = includeInstructions
+            ? context.Exercises
+                .Include(exer => exer.Instructions.OrderBy(instr => instr.StepNumber))
+                .OrderBy(exer => exer.Name)
+            : context.Exercises.OrderBy(exer => exer.Name);
+
+        var exercises = await query.ToListAsync();
+
+        return exercises;
+    }
+
+    public async Task<List<Exercise>> GetExercisesAsync_DoesNotWork(bool includeInstructions)
+    {
+        var query = context.Exercises.OrderBy(exer => exer.Name);
 
         if (includeInstructions)
         {
@@ -35,50 +47,38 @@ public class InMemExerciseData : IExerciseData
         return exercises;
     }
 
+    public async Task<List<Exercise>> GetExercisesAsync_Works(bool includeInstructions)
+    {
+        IQueryable<Exercise> query = context.Exercises
+            .Include(exer => exer.Instructions.OrderBy(instr => instr.StepNumber))
+            .OrderBy(exer => exer.Name);
+
+        var exercises = await query.ToListAsync();
+
+        return exercises;
+    }
+
     public async Task<Exercise?> GetExerciseAsync(int id, bool includeInstructions)
     {
         IQueryable<Exercise> query = includeInstructions
-            ? context.Exercises.Include(e => e.Instructions)
+            ? context.Exercises
+                .Include(e => e.Instructions
+                    .OrderBy(instr => instr.StepNumber))
             : context.Exercises;
 
-        var exercise = await query
-            .Where(e => e.Id == id)
-            .FirstOrDefaultAsync();
-
-        if (exercise is null) return null;
-
-        exercise.Instructions = exercise.Instructions
-            .OrderBy(instr => instr.StepNumber)
-            .ToList();
+        var exercise = await query.FirstOrDefaultAsync(e => e.Id == id);
 
         return exercise;
     }
 
     public async Task<bool> SaveChangesAsync()
     {
-        var saved = (await context.SaveChangesAsync() >= 0);
-
-        if (saved) context.ChangeTracker.Clear();
-
-        return saved;
+        return (await context.SaveChangesAsync() >= 0);
     }
 
     public void Delete(Exercise exercise)
     {
         context.Exercises.Remove(exercise);
-    }
-
-    public List<EntityEntry> CheckedChangedEntities()
-    {
-        var changedEntriesCopy = context.ChangeTracker.Entries()
-            .Where(e => e.State == EntityState.Added ||
-                        e.State == EntityState.Modified ||
-                        e.State == EntityState.Detached ||
-                        e.State == EntityState.Unchanged ||
-                        e.State == EntityState.Deleted)
-            .ToList();
-
-        return changedEntriesCopy;
     }
 
     public async static Task SeedData(IExerciseData context)

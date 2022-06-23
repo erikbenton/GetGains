@@ -32,7 +32,7 @@ public class AdminController : ControllerBase
 
         if (password != "admin") return Unauthorized();
 
-        await InMemExerciseData.SeedData(exerciseContext);
+        await ExerciseData.SeedData(exerciseContext);
 
         var exercises = await exerciseContext.GetExercisesAsync(true);
 
@@ -73,7 +73,7 @@ public class AdminController : ControllerBase
 
         if (exercises.Count() == 0) return BadRequest();
 
-        InMemWorkoutData.SeedData(workoutContext, exercises);
+        WorkoutData.SeedData(workoutContext, exercises);
 
         var workouts = workoutContext.GetAll();
 

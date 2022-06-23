@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GetGains.Data.Services;
 
-public class InMemWorkoutData : IWorkoutData
+public class WorkoutData : IWorkoutData
 {
     private readonly GainsDbContext context;
 
-    public InMemWorkoutData(GainsDbContext context)
+    public WorkoutData(GainsDbContext context)
     {
         this.context = context;
     }

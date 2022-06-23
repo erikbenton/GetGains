@@ -16,7 +16,7 @@ public class TemplateData : ITemplateData
 
     public void AddTemplate(Template template)
     {
-        context.WorkoutTemplates.Add(template);
+        context.Templates.Add(template);
     }
 
     public void Delete(Template template)
@@ -31,26 +31,36 @@ public class TemplateData : ITemplateData
 
     public async Task<List<Template>> GetTemplatesAsync(bool includeSets)
     {
-        var query = context.WorkoutTemplates;
+        //var query = context.Templates;
 
-        if (includeSets)
-        {
-            query.Include(template => template.GroupTemplates
+        //if (includeSets)
+        //{
+        //    query.Include(template => template.GroupTemplates
+        //            .OrderBy(group => group.GroupNumber))
+        //            .ThenInclude(group => group.Exercise)
+        //        .Include(template => template.GroupTemplates)
+        //            .ThenInclude(group => group.SetTemplates);
+
+        //    // TODO Only way to actually populate them at the moment
+        //    // ThenInclude is not working for some reason...
+        //    var templateQuery = context.TemplateSetGroups
+        //        .Include(group => group.Exercise)
+        //        .Include(group => group.SetTemplates);
+
+        //    var templateGroups = await templateQuery.ToListAsync();
+        //}
+
+        IQueryable<Template> query = includeSets
+            ? context.Templates
+                .Include(template => template.GroupTemplates
                     .OrderBy(group => group.GroupNumber))
                     .ThenInclude(group => group.Exercise)
                 .Include(template => template.GroupTemplates)
-                    .ThenInclude(group => group.SetTemplates);
+                    .ThenInclude(group => group.SetTemplates)
+                .OrderBy(template => template.Name)
+            : context.Templates.OrderBy(template => template.Name);
 
-            // TODO Only way to actually populate them at the moment
-            // ThenInclude is not working for some reason...
-            var templateQuery = context.WorkoutSetGroupTemplates
-                .Include(group => group.Exercise)
-                .Include(group => group.SetTemplates);
-
-            var templateGroups = await templateQuery.ToListAsync();
-        }
-
-        var templates = await query.OrderBy(template => template.Name).ToListAsync();
+        var templates = await query.ToListAsync();
 
         return templates;
     }
