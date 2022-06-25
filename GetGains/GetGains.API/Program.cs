@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//builder.Services.AddDbContext<GainsDbContext>(opt => opt.UseInMemoryDatabase(databaseName: "WorkoutDatabase"));
+//builder.Services.AddDbContext<GainsDbContext>(opt =>
+//  opt.UseInMemoryDatabase(databaseName: "WorkoutDatabase"));
 
 builder.Services.AddDbContext<GainsDbContext>(
     dbContextOptions => dbContextOptions.UseSqlServer(

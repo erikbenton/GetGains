@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+<Node Id="IModel" Label="GainsDbContext" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot" PropertyAccessMode="PropertyAccessMode.Default" ProductVersion="6.0.6" Annotations="BaseTypeDiscoveryConvention:DerivedTypes: System.Collections.Generic.Dictionary`2[System.Type,System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.IConventionEntityType]]
+Relational:MaxIdentifierLength: 128
+RelationshipDiscoveryConvention:InverseNavigationCandidates: System.Collections.Generic.Dictionary`2[System.Type,System.Collections.Generic.SortedSet`1[System.Type]]
+SqlServer:ValueGenerationStrategy: IdentityColumn" Category="Model" Group="Expanded" />
+<Node Id = "Exercise" Label="Exercise" Name="Exercise" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Exercises
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "Instruction" Label="Instruction" Name="Instruction" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Instructions
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "Exercise.Id" Label="Id" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Exercise.Instructions" Label="Instructions (*)" Name="Instructions" Category="Navigation Collection" Type="List&lt;Instruction&gt;"  Field="" Dependent="Instruction" Principal="" Inverse="Exercise" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Exercise.Author" Label="Author" Name="Author" Category="Property Optional" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Exercise.BodyPart" Label="BodyPart" Name="BodyPart" Category="Property Required" Type="BodyPart" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Exercise.Category" Label="Category" Name="Category" Category="Property Required" Type="ExerciseCategory" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Exercise.Description" Label="Description" Name="Description" Category="Property Optional" Type="string" MaxLength="(255)" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="MaxLength: 255" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Exercise.MediaUrl" Label="MediaUrl" Name="MediaUrl" Category="Property Optional" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Exercise.Name" Label="Name" Name="Name" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Template" Label="Template" Name="Template" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Templates
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "Instruction.Id" Label="Id" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Instruction.Exercise" Label="Exercise (1)" Name="Exercise" Category="Navigation Property" Type="Exercise"  Field="_exercise" Dependent="" Principal="Exercise" Inverse="Instructions" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Instruction.ExerciseId" Label="ExerciseId" Name="ExerciseId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Instruction.IsNewEntry" Label="IsNewEntry" Name="IsNewEntry" Category="Property Required" Type="bool" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Instruction.StepNumber" Label="StepNumber" Name="StepNumber" Category="Property Required" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Instruction.Text" Label="Text" Name="Text" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "TemplateSet" Label="TemplateSet" Name="TemplateSet" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: TemplateSets
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "Template.Id" Label="Id" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Template.GroupTemplates" Label="GroupTemplates (*)" Name="GroupTemplates" Category="Navigation Collection" Type="List&lt;TemplateSetGroup&gt;"  Field="" Dependent="TemplateSetGroup" Principal="" Inverse="Template" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Template.Category" Label="Category" Name="Category" Category="Property Required" Type="ExerciseCategory" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Template.Description" Label="Description" Name="Description" Category="Property Optional" Type="string" MaxLength="(255)" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="MaxLength: 255" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Template.Name" Label="Name" Name="Name" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "TemplateSetGroup" Label="TemplateSetGroup" Name="TemplateSetGroup" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: TemplateSetGroups
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "TemplateSet.Id" Label="Id" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "TemplateSet.Exercise" Label="Exercise (1)" Name="Exercise" Category="Navigation Property" Type="Exercise"  Field="_exercise" Dependent="" Principal="Exercise" Inverse="" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "TemplateSet.TemplateSetGroup" Label="TemplateSetGroup (1)" Name="TemplateSetGroup" Category="Navigation Property" Type="TemplateSetGroup"  Field="_templateSetGroup" Dependent="" Principal="TemplateSetGroup" Inverse="SetTemplates" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "TemplateSet.CoolDownTime" Label="CoolDownTime" Name="CoolDownTime" Category="Property Optional" Type="int?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "TemplateSet.ExerciseId" Label="ExerciseId" Name="ExerciseId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "TemplateSet.Note" Label="Note" Name="Note" Category="Property Optional" Type="string" MaxLength="(255)" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="MaxLength: 255" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "TemplateSet.SetNumber" Label="SetNumber" Name="SetNumber" Category="Property Required" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "TemplateSet.TargetReps" Label="TargetReps" Name="TargetReps" Category="Property Optional" Type="int?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "TemplateSet.TargetTime" Label="TargetTime" Name="TargetTime" Category="Property Optional" Type="double?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "TemplateSet.TargetWeight" Label="TargetWeight" Name="TargetWeight" Category="Property Optional" Type="double?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "TemplateSet.TemplateSetGroupId" Label="TemplateSetGroupId" Name="TemplateSetGroupId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "TemplateSet.WarmUpTime" Label="WarmUpTime" Name="WarmUpTime" Category="Property Optional" Type="int?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Workout" Label="Workout" Name="Workout" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Workouts
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "TemplateSetGroup.Id" Label="Id" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "TemplateSetGroup.Exercise" Label="Exercise (1)" Name="Exercise" Category="Navigation Property" Type="Exercise"  Field="_exercise" Dependent="" Principal="Exercise" Inverse="" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "TemplateSetGroup.SetTemplates" Label="SetTemplates (*)" Name="SetTemplates" Category="Navigation Collection" Type="List&lt;TemplateSet&gt;"  Field="" Dependent="TemplateSet" Principal="" Inverse="TemplateSetGroup" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "TemplateSetGroup.Template" Label="Template (1)" Name="Template" Category="Navigation Property" Type="Template"  Field="_template" Dependent="" Principal="Template" Inverse="GroupTemplates" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "TemplateSetGroup.ExerciseId" Label="ExerciseId" Name="ExerciseId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "TemplateSetGroup.GroupNumber" Label="GroupNumber" Name="GroupNumber" Category="Property Required" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "TemplateSetGroup.TemplateId" Label="TemplateId" Name="TemplateId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSet" Label="WorkoutSet" Name="WorkoutSet" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: WorkoutSets
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "Workout.Id" Label="Id" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Workout.ExerciseGroups" Label="ExerciseGroups (*)" Name="ExerciseGroups" Category="Navigation Collection" Type="List&lt;WorkoutSetGroup&gt;"  Field="" Dependent="WorkoutSetGroup" Principal="" Inverse="Workout" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Workout.Category" Label="Category" Name="Category" Category="Property Required" Type="ExerciseCategory" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Workout.Description" Label="Description" Name="Description" Category="Property Optional" Type="string" MaxLength="(255)" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="MaxLength: 255" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Workout.Name" Label="Name" Name="Name" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSetGroup" Label="WorkoutSetGroup" Name="WorkoutSetGroup" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: WorkoutSetGroups
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "WorkoutSet.Id" Label="Id" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "WorkoutSet.Exercise" Label="Exercise (1)" Name="Exercise" Category="Navigation Property" Type="Exercise"  Field="_exercise" Dependent="" Principal="Exercise" Inverse="" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "WorkoutSet.WorkoutSetGroup" Label="WorkoutSetGroup (1)" Name="WorkoutSetGroup" Category="Navigation Property" Type="WorkoutSetGroup"  Field="_workoutSetGroup" Dependent="" Principal="WorkoutSetGroup" Inverse="Sets" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "WorkoutSet.CoolDownTime" Label="CoolDownTime" Name="CoolDownTime" Category="Property Optional" Type="int?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSet.ExerciseId" Label="ExerciseId" Name="ExerciseId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSet.IsComplete" Label="IsComplete" Name="IsComplete" Category="Property Required" Type="bool" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSet.Note" Label="Note" Name="Note" Category="Property Optional" Type="string" MaxLength="(255)" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="MaxLength: 255" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSet.Reps" Label="Reps" Name="Reps" Category="Property Optional" Type="int?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSet.SetNumber" Label="SetNumber" Name="SetNumber" Category="Property Required" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSet.Time" Label="Time" Name="Time" Category="Property Optional" Type="double?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSet.WarmUpTime" Label="WarmUpTime" Name="WarmUpTime" Category="Property Optional" Type="int?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSet.Weight" Label="Weight" Name="Weight" Category="Property Optional" Type="double?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSet.WorkoutSetGroupId" Label="WorkoutSetGroupId" Name="WorkoutSetGroupId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSetGroup" Label="WorkoutSetGroup" Name="WorkoutSetGroup" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="" Category="EntityType" Group="Expanded" />
+<Node Id = "WorkoutSetGroup.Id" Label="Id" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "WorkoutSetGroup.Exercise" Label="Exercise (1)" Name="Exercise" Category="Navigation Property" Type="Exercise"  Field="_exercise" Dependent="" Principal="Exercise" Inverse="" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "WorkoutSetGroup.Sets" Label="Sets (*)" Name="Sets" Category="Navigation Collection" Type="List&lt;WorkoutSet&gt;"  Field="" Dependent="WorkoutSet" Principal="" Inverse="WorkoutSetGroup" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "WorkoutSetGroup.Workout" Label="Workout (1)" Name="Workout" Category="Navigation Property" Type="Workout"  Field="_workout" Dependent="" Principal="Workout" Inverse="ExerciseGroups" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "WorkoutSetGroup.ExerciseId" Label="ExerciseId" Name="ExerciseId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSetGroup.GroupNumber" Label="GroupNumber" Name="GroupNumber" Category="Property Required" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "WorkoutSetGroup.WorkoutId" Label="WorkoutId" Name="WorkoutId" Category="Property Foreign" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+  </Nodes>
+  <Links>
+<Link Source = "IModel" Target="Exercise" Category="Contains" />
+<Link Source = "IModel" Target="Instruction" Category="Contains" />
+<Link Source = "Exercise" Target="Exercise.Instructions" Category="Contains" />
+<Link Source = "Exercise" Target="Exercise.Id" Category="Contains" />
+<Link Source = "Exercise" Target="Exercise.Author" Category="Contains" />
+<Link Source = "Exercise" Target="Exercise.BodyPart" Category="Contains" />
+<Link Source = "Exercise" Target="Exercise.Category" Category="Contains" />
+<Link Source = "Exercise" Target="Exercise.Description" Category="Contains" />
+<Link Source = "Exercise" Target="Exercise.MediaUrl" Category="Contains" />
+<Link Source = "Exercise" Target="Exercise.Name" Category="Contains" />
+<Link Source = "IModel" Target="Template" Category="Contains" />
+<Link Source = "Instruction" Target="Instruction.Exercise" Category="Contains" />
+<Link Source = "Instruction" Target="Instruction.Id" Category="Contains" />
+<Link Source="Instruction" Target="Exercise" From="Instruction.ExerciseId" To="Exercise.Id" Name="Instruction -> Exercise" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "Instruction" Target="Instruction.ExerciseId" Category="Contains" />
+<Link Source = "Instruction" Target="Instruction.IsNewEntry" Category="Contains" />
+<Link Source = "Instruction" Target="Instruction.StepNumber" Category="Contains" />
+<Link Source = "Instruction" Target="Instruction.Text" Category="Contains" />
+<Link Source = "IModel" Target="TemplateSet" Category="Contains" />
+<Link Source = "Template" Target="Template.GroupTemplates" Category="Contains" />
+<Link Source = "Template" Target="Template.Id" Category="Contains" />
+<Link Source = "Template" Target="Template.Category" Category="Contains" />
+<Link Source = "Template" Target="Template.Description" Category="Contains" />
+<Link Source = "Template" Target="Template.Name" Category="Contains" />
+<Link Source = "IModel" Target="TemplateSetGroup" Category="Contains" />
+<Link Source = "TemplateSet" Target="TemplateSet.Exercise" Category="Contains" />
+<Link Source = "TemplateSet" Target="TemplateSet.TemplateSetGroup" Category="Contains" />
+<Link Source = "TemplateSet" Target="TemplateSet.Id" Category="Contains" />
+<Link Source="TemplateSet" Target="Exercise" From="TemplateSet.ExerciseId" To="Exercise.Id" Name="TemplateSet -> Exercise" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source="TemplateSet" Target="TemplateSetGroup" From="TemplateSet.TemplateSetGroupId" To="TemplateSetGroup.Id" Name="TemplateSet -> TemplateSetGroup" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "TemplateSet" Target="TemplateSet.CoolDownTime" Category="Contains" />
+<Link Source = "TemplateSet" Target="TemplateSet.ExerciseId" Category="Contains" />
+<Link Source = "TemplateSet" Target="TemplateSet.Note" Category="Contains" />
+<Link Source = "TemplateSet" Target="TemplateSet.SetNumber" Category="Contains" />
+<Link Source = "TemplateSet" Target="TemplateSet.TargetReps" Category="Contains" />
+<Link Source = "TemplateSet" Target="TemplateSet.TargetTime" Category="Contains" />
+<Link Source = "TemplateSet" Target="TemplateSet.TargetWeight" Category="Contains" />
+<Link Source = "TemplateSet" Target="TemplateSet.TemplateSetGroupId" Category="Contains" />
+<Link Source = "TemplateSet" Target="TemplateSet.WarmUpTime" Category="Contains" />
+<Link Source = "IModel" Target="Workout" Category="Contains" />
+<Link Source = "TemplateSetGroup" Target="TemplateSetGroup.Exercise" Category="Contains" />
+<Link Source = "TemplateSetGroup" Target="TemplateSetGroup.SetTemplates" Category="Contains" />
+<Link Source = "TemplateSetGroup" Target="TemplateSetGroup.Template" Category="Contains" />
+<Link Source = "TemplateSetGroup" Target="TemplateSetGroup.Id" Category="Contains" />
+<Link Source="TemplateSetGroup" Target="Exercise" From="TemplateSetGroup.ExerciseId" To="Exercise.Id" Name="TemplateSetGroup -> Exercise" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source="TemplateSetGroup" Target="Template" From="TemplateSetGroup.TemplateId" To="Template.Id" Name="TemplateSetGroup -> Template" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "TemplateSetGroup" Target="TemplateSetGroup.ExerciseId" Category="Contains" />
+<Link Source = "TemplateSetGroup" Target="TemplateSetGroup.GroupNumber" Category="Contains" />
+<Link Source = "TemplateSetGroup" Target="TemplateSetGroup.TemplateId" Category="Contains" />
+<Link Source = "IModel" Target="WorkoutSet" Category="Contains" />
+<Link Source = "Workout" Target="Workout.ExerciseGroups" Category="Contains" />
+<Link Source = "Workout" Target="Workout.Id" Category="Contains" />
+<Link Source = "Workout" Target="Workout.Category" Category="Contains" />
+<Link Source = "Workout" Target="Workout.Description" Category="Contains" />
+<Link Source = "Workout" Target="Workout.Name" Category="Contains" />
+<Link Source = "IModel" Target="WorkoutSetGroup" Category="Contains" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.Exercise" Category="Contains" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.WorkoutSetGroup" Category="Contains" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.Id" Category="Contains" />
+<Link Source="WorkoutSet" Target="Exercise" From="WorkoutSet.ExerciseId" To="Exercise.Id" Name="WorkoutSet -> Exercise" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source="WorkoutSet" Target="WorkoutSetGroup" From="WorkoutSet.WorkoutSetGroupId" To="WorkoutSetGroup.Id" Name="WorkoutSet -> WorkoutSetGroup" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.CoolDownTime" Category="Contains" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.ExerciseId" Category="Contains" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.IsComplete" Category="Contains" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.Note" Category="Contains" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.Reps" Category="Contains" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.SetNumber" Category="Contains" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.Time" Category="Contains" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.WarmUpTime" Category="Contains" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.Weight" Category="Contains" />
+<Link Source = "WorkoutSet" Target="WorkoutSet.WorkoutSetGroupId" Category="Contains" />
+<Link Source = "IModel" Target="WorkoutSetGroup" Category="Contains" />
+<Link Source = "WorkoutSetGroup" Target="WorkoutSetGroup.Exercise" Category="Contains" />
+<Link Source = "WorkoutSetGroup" Target="WorkoutSetGroup.Sets" Category="Contains" />
+<Link Source = "WorkoutSetGroup" Target="WorkoutSetGroup.Workout" Category="Contains" />
+<Link Source = "WorkoutSetGroup" Target="WorkoutSetGroup.Id" Category="Contains" />
+<Link Source="WorkoutSetGroup" Target="Exercise" From="WorkoutSetGroup.ExerciseId" To="Exercise.Id" Name="WorkoutSetGroup -> Exercise" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source="WorkoutSetGroup" Target="Workout" From="WorkoutSetGroup.WorkoutId" To="Workout.Id" Name="WorkoutSetGroup -> Workout" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "WorkoutSetGroup" Target="WorkoutSetGroup.ExerciseId" Category="Contains" />
+<Link Source = "WorkoutSetGroup" Target="WorkoutSetGroup.GroupNumber" Category="Contains" />
+<Link Source = "WorkoutSetGroup" Target="WorkoutSetGroup.WorkoutId" Category="Contains" />
+  </Links>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="EntityType" ValueLabel="True">
+      <Condition Expression="HasCategory('EntityType')" />
+      <Setter Property="Background" Value="#FFC0C0C0" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Primary" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Primary')" />
+      <Setter Property="Background" Value="#FF008000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Optional" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Optional')" />
+      <Setter Property="Background" Value="#FF808040" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Foreign" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Foreign')" />
+      <Setter Property="Background" Value="#FF8080FF" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Required" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Required')" />
+      <Setter Property="Background" Value="#FFC0A000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Navigation Property" ValueLabel="True">
+      <Condition Expression="HasCategory('Navigation Property')" />
+      <Setter Property="Background" Value="#FF990000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Navigation Collection" ValueLabel="True">
+      <Condition Expression="HasCategory('Navigation Collection')" />
+      <Setter Property="Background" Value="#FFFF3232" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Model" ValueLabel="True">
+      <Condition Expression="HasCategory('Model')" />
+      <Setter Property="Background" Value="#FFFFFFFF" />
+    </Style>
+  </Styles>
+  <Properties>
+    <Property Id="Name" Group="Model Properties" DataType="System.String" />
+    <Property Id="Field"  Description="Backing field" Group="Model Properties" DataType="System.String" />
+    <Property Id="Type"  Description="CLR data type" Group="Model Properties" DataType="System.String" />
+    <Property Id="To" Description="Source property" Group="Model Properties" DataType="System.String" />
+    <Property Id="From" Description="Target property" Group="Model Properties" DataType="System.String" />
+    <Property Id="Dependent" Description="Dependent entity" Group="Model Properties" DataType="System.String" />
+    <Property Id="Inverse" Description="Inverse entity" Group="Model Properties" DataType="System.String" />
+    <Property Id="Principal" Description="Principal entity" Group="Model Properties" DataType="System.String" />    
+    <Property Id="Annotations" Description="Annotations" Group="Model Properties" DataType="System.String" />
+    <Property Id="BaseClass"  Description="Base class" Group="Model Properties" DataType="System.String" />
+    <Property Id="ChangeTrackingStrategy" Description="Change tracking strategy" Group="Model Properties" DataType="System.String" />
+    <Property Id="IsUnique" Group="Model Properties" DataType="System.Boolean" />
+    <Property Id="IsAbstract" Group="Model Properties" DataType="System.Boolean" />
+    <Property Id="ProductVersion" Label="Product Version" Description="EF Core product version" Group="Model Properties" DataType="System.String" />
+    <Property Id="IsIndexed" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsRequired" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsPrimaryKey" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsForeignKey" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsShadow" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsAlternateKey" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsConcurrencyToken" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsIndexed" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsUnicode" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="ValueGenerated" Group="Property Flags" DataType="System.String" />
+    <Property Id="BeforeSaveBehavior" Group="Property Flags" DataType="System.String" />
+    <Property Id="AfterSaveBehavior" Group="Property Flags" DataType="System.String" />
+    <Property Id="PropertyAccessMode" Group="Property Flags" DataType="System.String" />
+  </Properties>
+</DirectedGraph>

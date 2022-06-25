@@ -24,32 +24,27 @@ public class TemplateData : ITemplateData
         throw new NotImplementedException();
     }
 
-    public Task<Template?> GetTemplateAsync(int id, bool populateSets)
+    public async Task<Template?> GetTemplateAsync(int id, bool populateSets)
     {
-        throw new NotImplementedException();
+        var template = populateSets
+            ? await context.Templates
+                .Where(template => template.Id == id)
+                .Include(template => template.GroupTemplates
+                    .OrderBy(group => group.GroupNumber))
+                    .ThenInclude(group => group.Exercise)
+                .Include(template => template.GroupTemplates)
+                    .ThenInclude(group => group.SetTemplates
+                        .OrderBy(set => set.SetNumber))
+                .FirstOrDefaultAsync()
+            : await context.Templates
+                .Where(template => template.Id == id)
+                .FirstOrDefaultAsync();
+
+        return template;
     }
 
     public async Task<List<Template>> GetTemplatesAsync(bool includeSets)
     {
-        //var query = context.Templates;
-
-        //if (includeSets)
-        //{
-        //    query.Include(template => template.GroupTemplates
-        //            .OrderBy(group => group.GroupNumber))
-        //            .ThenInclude(group => group.Exercise)
-        //        .Include(template => template.GroupTemplates)
-        //            .ThenInclude(group => group.SetTemplates);
-
-        //    // TODO Only way to actually populate them at the moment
-        //    // ThenInclude is not working for some reason...
-        //    var templateQuery = context.TemplateSetGroups
-        //        .Include(group => group.Exercise)
-        //        .Include(group => group.SetTemplates);
-
-        //    var templateGroups = await templateQuery.ToListAsync();
-        //}
-
         IQueryable<Template> query = includeSets
             ? context.Templates
                 .Include(template => template.GroupTemplates
