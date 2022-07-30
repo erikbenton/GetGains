@@ -7,3 +7,5 @@
 /GetGains/GetGains.MVC
 /GetGains/GetGains.API/obj
 /GetGains/GetGains.API/bin
+/GetGains/GetGains.API.Tests/obj
+/GetGains/GetGains.API.Tests/bin

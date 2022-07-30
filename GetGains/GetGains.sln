@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetGains.Data", "GetGains.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetGains.API", "GetGains.API\GetGains.API.csproj", "{12D5155C-2A27-4AE5-9583-9082048005F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetGains.API.Tests", "GetGains.API.Tests\GetGains.API.Tests.csproj", "{3E4CD8C5-DB7A-4EB2-92E9-83F4C2CF8FBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{12D5155C-2A27-4AE5-9583-9082048005F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12D5155C-2A27-4AE5-9583-9082048005F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12D5155C-2A27-4AE5-9583-9082048005F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E4CD8C5-DB7A-4EB2-92E9-83F4C2CF8FBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E4CD8C5-DB7A-4EB2-92E9-83F4C2CF8FBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E4CD8C5-DB7A-4EB2-92E9-83F4C2CF8FBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E4CD8C5-DB7A-4EB2-92E9-83F4C2CF8FBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
