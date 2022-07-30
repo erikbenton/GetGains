@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GetGains.API.Controllers;
 
 [ApiController]
-[Route("exercises")]
+[Route("api/exercises")]
 public class ExerciseController : ControllerBase
 {
     private readonly IExerciseData exerciseContext;

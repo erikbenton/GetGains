@@ -15,6 +15,8 @@ public class TemplateDto
     [Required]
     public string Category { get; set; }
 
+    public string? Description { get; set; }
+
     [Required]
     public List<TemplateSetGroupDto> SetGroups { get; set; }
 
@@ -23,6 +25,7 @@ public class TemplateDto
         Id = template.Id;
         Name = template.Name;
         Category = template.Category.GetLabel();
+        Description = template.Description;
         SetGroups = template.GroupTemplates
             .Select(group => new TemplateSetGroupDto(group))
             .ToList();

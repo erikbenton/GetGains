@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GetGains.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class WorkoutController : ControllerBase
 {
     private readonly IWorkoutData workoutContext;

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GetGains.API.Controllers;
 
-[Route("[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 public class AdminController : ControllerBase
 {

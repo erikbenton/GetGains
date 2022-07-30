@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GetGains.API.Controllers;
 
 [ApiController]
-[Route("templates")]
+[Route("api/[controller]")]
 public class TemplatesController : ControllerBase
 {
     private readonly ITemplateData templateContext;
